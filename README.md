@@ -8,7 +8,7 @@ Data analysis for publication: "Interacting effects of human mobility and landsc
 
 ### Data Availability
 
-The wildlife movement data that serves as input for part 1 of the workflow are archived publicly on the [Movebank Data Repository](https://www.movebank.org/cms/movebank-content/data-repository) for reproducibility. See the manuscript's supplementary table 1 for DOIs and dataset contacts. Select species data could not be made public due to conservation concerns. The secondary data products used as input to part 2 of the workflow is publicly available on Dryad: [DOI ___](). These tabular data products contain all species and individuals in the analysis with environmental and anthropogenic annotations derived from the animal GPS locations.
+The wildlife movement data that serves as input for part 1 of the workflow are archived publicly on the [Movebank Data Repository](https://www.movebank.org/cms/movebank-content/data-repository) for reproducibility. See the manuscript's supplementary table 1 for DOIs and dataset contacts. Select species data could not be made public due to conservation concerns. The secondary data products used as input to part 2 of the workflow is publicly available on OSF: [DOI ___](). These tabular data products contain all species and individuals in the analysis with environmental and anthropogenic annotations derived from the animal GPS locations.
 
 ### Part 1: Data Prep
 
@@ -35,6 +35,25 @@ Navigate to `src/workflow/workflow_part2.sh`
 - Fit intra-individual interactive and additive models for individuals with data in both 2019 and 2020.
 - Select interactive or additive models based on significance.
 - Produce model summaries and plot results.
+
+### Part 3: Plotting
+
+Navigate to `src/workflow/workflow_part3.sh`
+
+- Wildlife responses to the major components of human activity across the United States (Fig 1)
+- Interacting effects of human activities on wildlife’s use of geographic and environmental space (Fig 2)
+- Plastic behavioral responses to human mobility (Fig 3)
+- Combined impact of human activities on wildlife use of geographic and environmental space (Fig 4) 
+- Relationship between weekly area size and weekly sample size (Fig S1)
+- Niche breadth subsample sizes (Fig S2)
+- Fix rate median per species (Table S2)
+- Posterior distributions of species-specific estimates (Figs S3 and S4):
+  - effect of human mobility on area size 
+  - interactive effect of human modification and human mobility on area size
+  - effect of human mobility on niche size 
+  - interactive effect of human modification and human mobility on niche size
+- Distribution of census block sizes (Fig S5)
+- Distribution of utilization distribution sizes (Fig S6)
 
 ### Development Environment
 
