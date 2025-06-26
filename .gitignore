@@ -60,3 +60,6 @@ processed_data/*
 gee_data/*
 logs/*
 out/*
+
+# renv materials
+renv/library/
