@@ -40,52 +40,61 @@ Sustainable human-wildlife coexistence requires a mechanistic understanding of t
   +--/raw_data            # Raw data stored as initially received, inlcuding database
   |  
   +--/processed_data      # Processed data products, including the working version of the database
-  |  
+  |   |
+  |   +--/intermediate_db_copies
+  |   |   
+  |   +--/safegraph
+  |   |  |
+  |   |  +--/counties-dates-2-10-22-reformatted
+  |   |     |
+  |   |     +--/daily-data
+  |   |  
+  |   |
   +--/out                 # Analytical outputs, interim products
   |    |
-  |    +--single_species_models
+  |    +--/single_species_models
   |    |   |
-  |    |   +--niche_interactive
+  |    |   +--/niche_interactive
   |    |   |
-  |    |   +--niceh_additive
+  |    |   +--/niche_additive
   |    |   |
-  |    |   +--area-interactive
+  |    |   +--/area-interactive
   |    |   |
-  |    |   +--area_additive
+  |    |   +--/area_additive
   |    |
-  |   +--single_species_models_reruns
+  |   +--/single_species_models_reruns
   |    |   |
-  |    |   +--niche_interactive
+  |    |   +--/niche_interactive
   |    |   |
-  |    |   +--niche_additive
+  |    |   +--/niche_additive
   |    |   |
-  |    |   +--area_interactive
+  |    |   +--/area_interactive
   |    |   |
-  |    |   +--area_additive
+  |    |   +--/area_additive
   |    |
-  |    +--model_diagnostics
+  |    +--/model_diagnostics
   |    |   |
-  |    |   +--area
+  |    |   +--/area
   |    |   |
-  |    |   +--niche
+  |    |   +--/niche
   |    |
-  |    +--model_diagnostics_reruns
+  |    +--/model_diagnostics_reruns
   |    |   |
-  |    |   +--area
+  |    |   +--/area
   |    |   |
-  |    |   +--niche
+  |    |   +--/niche
   |    |
-  |    +--safegraph_summary
+  |    +--/safegraph_summary
   |    |
-  |    +--dbbmms
+  |    +--/dbbmms
   |    |
-  |    +--event-annotation
+  |    +--/event-annotation
   |    |
-  |    +--event-cbg-intersection
+  |    +--/event-cbg-intersection
   |    |
-  |    +--figs
+  |    +--/figs
   |    |
-  |    +--intra-ind-models
+  |    +--/intra-ind-models
 
 ```
 
@@ -161,9 +170,9 @@ This workflow was run with R 4.3.1. All necessary packages with specified versio
 
 ### Contributing
 
-Contact information:
+Contacts:
 
-- Ruth Oliver (rutholiver@ucsb.edu)
-- Scott Yanco (yancos@si.edu)
+- Ruth Oliver rutholiver@ucsb.edu
+- Scott Yanco yancos@si.edu
 
 We welcome feedback and questions. Please open an issue or create a fork of this repository.

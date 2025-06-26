@@ -26,11 +26,26 @@ make --version
 
 # ------------ Create species list ------------
 
-echo "STARTING SCRIPT: create_species_lisr.R"
+echo "STARTING SCRIPT: create_species_list.R"
 
-Rscript $src/create_species_lisr.R
+Rscript $src/create_species_list.R
 
-echo "SCRIPT COMPLETE: create_species_lisr.R"
+echo "SCRIPT COMPLETE: create_species_list.R"
+
+# ------------ Sum events per hex geometry ------------
+
+# NOTE: This script cannot be run without access to the cleaned database.
+#       Since the db cannot made publicly available on Open Science 
+#       Framework, this script has been commented out in part3_plotting, but the 
+#       output sf object needed to produce figure 1 has been publicly archived.
+#       This script cannot be moved to part1 because it requires the output of
+#       create_species_list.R which takes inputs from part3_model_effects.sh
+
+# echo "STARTING SCRIPT: events_per_hex.R"
+
+# Rscript $src_part1/events_per_hex.R
+
+# echo "SCRIPT COMPLETE: events_per_hex.R"
 
 # ------------ Fig 1 ------------
 

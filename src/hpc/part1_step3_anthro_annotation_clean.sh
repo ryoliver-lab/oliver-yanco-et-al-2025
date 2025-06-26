@@ -92,8 +92,9 @@ echo "STARTING SCRIPT: clean_movement.r"
 
 Rscript $src_part1/clean_movement.r --db /tmp/mosey_mod.db
 
-echo "SCRIPT COMPLETE: clean_movement.r. Archiving database in /scratch."
+echo "SCRIPT COMPLETE: clean_movement.r. Archiving database in processed_data/intermediate_db_copies."
 
 cp /tmp/mosey_mod.db $wd/processed_data/intermediate_db_copies/mosey_mod_clean-movement_complete.db
+
 
 echo "JOB COMPLETE"
