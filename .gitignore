@@ -47,3 +47,16 @@ po/*~
 
 # RStudio Connect folder
 rsconnect/
+
+# refrain from pushing script with private data identifiers
+src/workflow/part1_data_prep/adjust_skunk_data.R
+
+# SLURM output files
+slurm*
+
+# data dirs
+raw_data/*
+processed_data/*
+gee_data/*
+logs/*
+out/*

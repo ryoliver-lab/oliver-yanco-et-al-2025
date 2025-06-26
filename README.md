@@ -2,9 +2,92 @@
 
 Data analysis for publication: "Interacting effects of human mobility and landscape modification on wildlife"
 
-[abstract]
+### Abstract
 
-[repo structure diagram]
+Sustainable human-wildlife coexistence requires a mechanistic understanding of the many interacting ways in which humans affect animals. However, progress is hampered by the lack of accessible data for measuring the impact of the dynamic presence of people (hereafter ‘human mobility’). Here, we leverage daily mobile-device data to disentangle how human mobility and landscape modification differentially influence the use of geographic and environmental space for 37 mammal and bird species across the United States. Human mobility drove changes in area or niche size for over 65% of the species in this study. For ~60% of species that responded to human activities, the effects were interdependent – animals tended to react more strongly to human mobility in less modified habitats. Overall, human activities caused mammals and birds to use less space and shrink their environmental niches (mammals: median decrease in area and niche size of 10% and 3% per animal per week, respectively; birds: median decrease of 12% and 2%). Our results demonstrate that human mobility and landscape modification have complex combined effects on wildlife which need to be considered for effective management.
+
+### Repository Structure
+
+```
+/oliver-yanco-et-al-2025 
+  |  
+  +--/src                 # Source code directory
+  |   |
+  |   +--config1.env      # config for repository filepaths and conda env
+  |   |
+  |   +--config2.env      # config for package libraries
+  |   |
+  |   +--/funs            # Source code for custom functions called by other scripts
+  |   |   
+  |   +--/hpc             # Scripts for submitting jobs to Slurm manager sequentially
+  |   |
+  |   +--/mosey           # Scripts for database annotation
+  |   |
+  |   +--/startup.R       # Source code for some basic environment configuration
+  |   | 
+  |   +--/workflow        # Scripts that execute elements of the workflow
+  |       |
+  |       +--part1_data_prep
+  |       |
+  |       +--part2_modeling
+  |       |
+  |       +--part3_figures
+  |    
+  +--/ctfs                # Control files for workflow scripts
+  | 
+  +--/conda_envs          # Stores .yml files with conda environment specifications
+  |  
+  +--/raw_data            # Raw data stored as initially received, inlcuding database
+  |  
+  +--/processed_data      # Processed data products, including the working version of the database
+  |  
+  +--/out                 # Analytical outputs, interim products
+  |    |
+  |    +--single_species_models
+  |    |   |
+  |    |   +--niche_interactive
+  |    |   |
+  |    |   +--niceh_additive
+  |    |   |
+  |    |   +--area-interactive
+  |    |   |
+  |    |   +--area_additive
+  |    |
+  |   +--single_species_models_reruns
+  |    |   |
+  |    |   +--niche_interactive
+  |    |   |
+  |    |   +--niche_additive
+  |    |   |
+  |    |   +--area_interactive
+  |    |   |
+  |    |   +--area_additive
+  |    |
+  |    +--model_diagnostics
+  |    |   |
+  |    |   +--area
+  |    |   |
+  |    |   +--niche
+  |    |
+  |    +--model_diagnostics_reruns
+  |    |   |
+  |    |   +--area
+  |    |   |
+  |    |   +--niche
+  |    |
+  |    +--safegraph_summary
+  |    |
+  |    +--dbbmms
+  |    |
+  |    +--event-annotation
+  |    |
+  |    +--event-cbg-intersection
+  |    |
+  |    +--figs
+  |    |
+  |    +--intra-ind-models
+
+```
 
 ### Data Availability
 
@@ -12,9 +95,12 @@ The wildlife movement data that serves as input for part 1 of the workflow are a
 
 ### Part 1: Data Prep
 
-Navigate to `src/workflow/workflow_part1.sh`
+**R scripts:** `src/workflow/part1_data_prep`
+**SLURM scripts:** `src/hpc/part1*.sh`
 
-- Build database of wildlife movement data for 37 bird and mammal species pulled from [Movebank]((https://www.movebank.org/cms/movebank-main)) studies using `mosey_db` software. 
+- Build database of wildlife movement data for 37 bird and mammal species pulled from [Movebank]((https://www.movebank.org/cms/movebank-main)) studies.
+  - Data are stored as a [mosey_db](https://github.com/benscarlson/mosey_db), a SQLite relational database built to store data from [Movebank](www.movebank.org).
+  - [This repository release](https://github.com/julietcohen/mosey_db/releases/tag/v1.0.0) includes the forked `mosey_db` code used to build the database used as input for this repository's workflow.
 - Subset wildlife movement data to region and time period of interest.
 - Annotate database with environmental layers for temperature, NDVI, and elevation.
 - Annotate database with human mobility using daily mobile device counts.
@@ -28,7 +114,8 @@ Navigate to `src/workflow/workflow_part1.sh`
 
 Use tabular niche and space use estimations for each individual-week as input to species-specific Bayesian mixed effects models across all species.
 
-Navigate to `src/workflow/workflow_part2.sh`
+**R scripts:** `src/workflow/part2_modeling`
+**SLURM scripts:** `src/hpc/part2*.sh`
 
 - Fit space use interactive and additive models.
 - Fit niche interactive and additive models.
@@ -36,9 +123,10 @@ Navigate to `src/workflow/workflow_part2.sh`
 - Select interactive or additive models based on significance.
 - Produce model summaries and plot results.
 
-### Part 3: Plotting
+### Part 3: Figures
 
-Navigate to `src/workflow/workflow_part3.sh`
+**R scripts:** `src/workflow/part3_figures`
+**SLURM scripts:** `src/hpc/part3*.sh`
 
 - Wildlife responses to the major components of human activity across the United States (Fig 1)
 - Interacting effects of human activities on wildlife’s use of geographic and environmental space (Fig 2)
@@ -69,6 +157,13 @@ conda env create -f conda_envs/r_spatial2_direct_dependencies_environment.yml
 
 This workflow was run with R 4.3.1. All necessary packages with specified versions can be installed with   [renv](https://rstudio.github.io/renv/articles/renv.html).
 
+[renv documentation]
+
 ### Contributing
 
-We welcome feedback and questions. Please open a new issue or create a fork of this repository.
+Contact information:
+
+- Ruth Oliver (rutholiver@ucsb.edu)
+- Scott Yanco (yancos@si.edu)
+
+We welcome feedback and questions. Please open an issue or create a fork of this repository.
