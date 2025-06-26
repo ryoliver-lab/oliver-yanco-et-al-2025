@@ -17,7 +17,7 @@ rm(list = ls())
 .outPF <- file.path(.wd, "out")
 
 # species list + taxonomy
-species_list <- fread("src/species_list.csv")
+species_list <- fread(file.path(.outPF, "species_list.csv"))
 .dbPF <- file.path(.wd,'processed_data/intermediate_db_copies/mosey_mod_clean-movement_complete.db')
 
 # connect to db 

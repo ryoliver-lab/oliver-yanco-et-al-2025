@@ -6,6 +6,9 @@ library(patchwork)
 library(here)
 
 rm(list = ls())
+.wd <- getwd()
+.datPF <- file.path(.wd, "covid-results")
+.outPF <- file.path(.wd, "figures")
 
 #- Color palette
 pal <- c("#9a7aa0ff","#fcaf58ff")
@@ -13,11 +16,11 @@ pal <- c("#9a7aa0ff","#fcaf58ff")
 #-- Load Data --#
 
 #- Niche model
-load(here::here("covid-results","niche_intra_ind_int_rs_mod_2025-06-24.rdata"))
+load(file.path(.datPF, "niche_intra_ind_int_rs_mod_2025-06-24.rdata"))
 niche_int_mod <- out$model
 
 #- Area Model
-load(here::here("covid-results","size_intra_ind_int_rs_mod_2025-06-24.rdata"))
+load(file.path(.datPF, "size_intra_ind_int_rs_mod_2025-06-24.rdata"))
 area_int_mod <- out$model
 
 #-- Plots --#
@@ -109,7 +112,7 @@ area_ce_int <- conditional_effects(x=area_int_mod,
 
 (comb_plot <- area_int_ce_plot + niche_int_ce_plot + plot_layout(guides = "collect"))
 
-ggsave(comb_plot, file = here::here("figures", "fig3.pdf"), height = 45, width = 90, units = "mm")
+ggsave(comb_plot, file = file.path(.outPF, "fig3.pdf"), height = 45, width = 90, units = "mm")
 
 
 

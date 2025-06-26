@@ -7,28 +7,30 @@ library(here)
 library(janitor)
 
 rm(list = ls())
+.wd <- getwd()
+.datPF <- file.path(.wd, "covid-results")
+.outPF <- file.path(.wd, "figures")
 
 ### select species to include in figure 4
 
 # create function to data wrangle model results
 read_model_results <- function(file_name, response){
-  results <- read_csv(here::here("covid-results",file_name)) %>%
-    mutate(response = rep(response, nrow(.)),
-           CI = abs(HCL - LCL)) %>%
-    select(species, Estimate, LCL, HCL, CI, sig_code, response)
+  results <- read_csv(file.path(.datPF, file_name)) %>%
+    mutate(response = rep(response, nrow(.))) %>%
+    select(species, Estimate, LCL, HCL, sig_code, response)
 }
 
 # read in model results
-area_ghm <- read_model_results("area_ghm_effects_2025-06-12.csv", "area_ghm")
-area_sg <- read_model_results("area_sg_effects_2025-06-12.csv", "area_sg")
-niche_ghm <- read_model_results("niche_ghm_effects_2025-06-12.csv", "niche_ghm")
-niche_sg <- read_model_results("niche_sg_effects_2025-06-12.csv", "niche_sg")
+area_ghm <- read_model_results("area_ghm_effects_2025-06-24.csv", "area_ghm")
+area_sg <- read_model_results("area_sg_effects_2025-06-24.csv", "area_sg")
+niche_ghm <- read_model_results("niche_ghm_effects_2025-06-24.csv", "niche_ghm")
+niche_sg <- read_model_results("niche_sg_effects_2025-06-24.csv", "niche_sg")
 
 ### prediction results
 species_list <- read_csv(here::here("src","species_list.csv"))
 
 ## area results
-pred_dat <- read_csv(here::here("covid-results", "area_change_prediction_2025-06-12.csv"))
+pred_dat <- read_csv(here::here("covid-results", "area_change_prediction_2025-06-24.csv"))
 
 # create data frame of prediction results
 spl <- unique(pred_dat$species)
@@ -75,7 +77,7 @@ area_diff_df <- area_diff_df %>%
   filter(species != "Numenius americanus")
 
 ## niche results
-pred_dat <- read_csv(here::here("covid-results", "niche_change_prediction_2025-06-12.csv"))
+pred_dat <- read_csv(here::here("covid-results", "niche_change_prediction_2025-06-24.csv"))
 
 spl <- unique(pred_dat$species)
 

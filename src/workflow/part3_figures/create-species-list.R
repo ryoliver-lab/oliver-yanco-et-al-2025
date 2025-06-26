@@ -2,21 +2,22 @@ library(data.table)
 library(tidyverse)
 
 rm(list = ls())
-
+.wd <- getwd()
+.datPF <- file.path(.wd, "out/covid-results")
 
 # species results
-area_ghm_new <- read_csv(here::here("covid-results", "area_ghm_effects_2025-06-24.csv")) %>%
+area_ghm_new <- read_csv(file.path(.datPF, "area_ghm_effects_2025-06-24.csv")) %>%
   select(species)
 
-area_sg_new <- read_csv(here::here("covid-results", "area_sg_effects_2025-06-24.csv")) %>%
+area_sg_new <- read_csv(file.path(.datPF, "area_sg_effects_2025-06-24.csv")) %>%
   mutate(response = rep("area_sg", nrow(.))) %>%
   select(species)
 
-niche_ghm_new <- read_csv(here::here("covid-results", "niche_ghm_effects_2025-06-24.csv")) %>%
+niche_ghm_new <- read_csv(file.path(.datPF, "niche_ghm_effects_2025-06-24.csv")) %>%
   mutate(response = rep("niche_ghm", nrow(.))) %>%
   select(species)
 
-niche_sg_new <- read_csv(here::here("covid-results", "niche_sg_effects_2025-06-24.csv")) %>%
+niche_sg_new <- read_csv(file.path(.datPF, "niche_sg_effects_2025-06-24.csv")) %>%
   mutate(response = rep("niche_sg", nrow(.))) %>%
   select(species)
 
@@ -107,5 +108,5 @@ species_list <- data.frame(scientific_name = unique(c(
                                                  "Ursus americanus",
                                                  "Ursus arctos") ~ "mammals"))
 
-write_csv(species_list,"src/species_list.csv")
+write_csv(species_list, file.path(.wd, "out/species_list.csv"))
   

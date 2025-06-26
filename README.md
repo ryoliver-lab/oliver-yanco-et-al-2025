@@ -39,9 +39,9 @@ Sustainable human-wildlife coexistence requires a mechanistic understanding of t
   |  
   +--/raw_data            # Raw data stored as initially received, inlcuding database
   |  
-  +--/processed_data      # Processed data products, including the working version of the database
+  +--/processed_data      # Processed data products
   |   |
-  |   +--/intermediate_db_copies
+  |   +--/intermediate_db_copies  # Working version of the database
   |   |   
   |   +--/safegraph
   |   |  |
@@ -52,7 +52,7 @@ Sustainable human-wildlife coexistence requires a mechanistic understanding of t
   |   |
   +--/out                 # Analytical outputs, interim products
   |    |
-  |    +--/single_species_models
+  |    +--/single_species_models  # Single species model .rdata files
   |    |   |
   |    |   +--/niche_interactive
   |    |   |
@@ -72,7 +72,7 @@ Sustainable human-wildlife coexistence requires a mechanistic understanding of t
   |    |   |
   |    |   +--/area_additive
   |    |
-  |    +--/model_diagnostics
+  |    +--/model_diagnostics  # Single species model summary PDFs
   |    |   |
   |    |   +--/area
   |    |   |
@@ -86,15 +86,17 @@ Sustainable human-wildlife coexistence requires a mechanistic understanding of t
   |    |
   |    +--/safegraph_summary
   |    |
-  |    +--/dbbmms
+  |    +--/dbbmms         # Utilization distributions for individual-weeks
   |    |
   |    +--/event-annotation
   |    |
   |    +--/event-cbg-intersection
   |    |
-  |    +--/figs
+  |    +--/covid-results  # Output CSVs from scripts in part3_model_effects.sh
   |    |
-  |    +--/intra-ind-models
+  |    +--/figures        # Output figure PNGs and PDFs
+  |    |
+  |    +--/intra-ind-models  # Models for species with sufficient data in both 2019 & 2020
 
 ```
 

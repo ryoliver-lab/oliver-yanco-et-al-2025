@@ -4,11 +4,13 @@
 
 library(tidyverse)
 
-.wd <- file.path(getwd(), "out/intra_ind_models")
+.wd <- getwd()
+.datPF <- file.path(.wd, "out/intra_ind_models")
+.outPF <- file.path(.wd, "out/figures")
 
 # --- AREA ---
 
-load(list.files(path = .wd, 
+load(list.files(path = .datPF, 
                 pattern = "^size_intra_ind_int_rs_mod_.*\\.rdata$", 
                 full.names = TRUE))
 
@@ -43,8 +45,6 @@ plot <- ggplot(acf_plots, aes(x = acf1)) +
        title = "Area Intra-Ind Model: Residual autocorrelation across individuals")
 
 ggsave(file.path(.wd, "area_ac_check.png"))
-
-
 
 
 # --- NICHE ---
@@ -83,4 +83,4 @@ plot <- ggplot(acf_plots, aes(x = acf1)) +
        y = "Count",
        title = "Niche Intra-Ind Model: Residual autocorrelation across individuals")
 
-ggsave(file.path(.wd, "niche_ac_check.png"))
+ggsave(file.path(.outPF, "niche_ac_check.png"))

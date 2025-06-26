@@ -5,12 +5,15 @@ library(ggh4x)
 library(here)
 
 rm(list = ls())
+.wd <- getwd()
+.datPF <- file.path(.wd, "covid-results")
+.outPF <- file.path(.wd, "figures")
 
 ### model results
 
 # create function to data wrangle model results
 read_model_results <- function(file_name, response){
-  results <- read_csv(here::here("covid-results",file_name)) %>%
+  results <- read_csv(file.path(.datPF, file_name)) %>%
     mutate(response = rep(response, nrow(.))) %>%
     select(species, Estimate, LCL, HCL, sig_code, response)
 }
@@ -291,7 +294,7 @@ p_responses <- ggplot(summarize_species_responses, aes(fill=driver, y=response, 
 # export figures
 p_all <- p_responses + p_drivers
 
-ggsave(p_all, file = here::here("figures", "fig2b.pdf"), width = 170, height = 30, units = "mm")
+ggsave(p_all, file = file.path(.outPF, "fig2b.pdf"), width = 170, height = 30, units = "mm")
 
 summarize_species_responses
 summarize_species_drivers

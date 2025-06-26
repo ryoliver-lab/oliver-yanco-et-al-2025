@@ -7,7 +7,11 @@ library(tidyverse)
 library(patchwork)
 options(scipen = 999)
 
-ud <- read_csv(file.path(getwd(), "out/dbbmm_size.csv")) %>% 
+.wd <- getwd()
+.outPF <- file.path(.wd, "figures")
+.datPF <- file.path(.wd, "out")
+
+ud <- read_csv(file.path(.datPF, "dbbmm_size.csv")) %>% 
   mutate(area_km2 = area/1000000)
 
 med <- round(median(ud$area_km2), 1)
@@ -68,4 +72,4 @@ print(inset)
 
 distrib + inset_element(inset, left = 0.4, bottom = 0.16, right = 1, top = 0.8) + theme_gray()
 
-ggsave(filename = here::here("figures/figS6.png"))
+ggsave(filename = file.path(.outPF, "/figS6.png"))

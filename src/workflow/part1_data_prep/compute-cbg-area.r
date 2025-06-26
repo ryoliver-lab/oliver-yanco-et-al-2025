@@ -29,13 +29,13 @@ if(interactive()) {
   rm(list=ls())
   library(here)
   
-  .dbPF <- '/home/sy522/project/covid-19_movement/processed_data/mosey_mod.db'
+  .dbPF <- ''
   # .dbPF <- '/home/sy522/project/covid-19_movement/processed_data/mosey_swap_mod.db'
   .test <- TRUE
   # rd <- here::here
   .wd <- getwd()
-  .datPF <- file.path(.wd,'raw_data/')
-  .outPF <- file.path(.wd,'out/event-annotation/')
+  .datPF <- file.path(.wd,'')
+  .outPF <- file.path(.wd,'')
   
 } else {
   library(docopt)
@@ -47,7 +47,7 @@ if(interactive()) {
   
   # census block group data is stored in the raw_data dir
   # .datPF <- file.path(.wd,'raw_data/covid_movement_full_repo/raw_data/')
-  .datPF <- file.path('/home/julietcohen/covid_movement_full_repo/raw_data/')
+  .datPF <- file.path(.wd, 'raw_data/')
   .outPF <- file.path(.wd,'out/event-annotation/')
 }
 

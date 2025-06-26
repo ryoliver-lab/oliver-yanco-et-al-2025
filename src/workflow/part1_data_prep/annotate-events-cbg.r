@@ -21,9 +21,9 @@ if(interactive()) {
   rm(list=ls())
   library(here)
   
-  .wd <- '/gpfs/ysm/project/jetz/ryo3/projects/covid'
+  .wd <- ''
   .test <- TRUE
-  .dbPF <- '/home/sy522/project/covid-19_movement/processed_data/mosey_mod.db'
+  .dbPF <- ''
   .datPF <- file.path(.wd,'out/')
   .outPF <- file.path(.wd,'out/')
   

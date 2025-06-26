@@ -9,6 +9,9 @@
 library(tidyverse)
 options(scipen = 999)
 
+.wd <- getwd()
+.outPF <- file.path(.wd, "out/figures")
+
 int <- read_csv(here::here("src/cbg-area-distribution/event-cbg-intersection.csv"))
 
 # check number of census blocks groups that intersected points
@@ -68,6 +71,6 @@ ggplot(int_area_unique,
        x = "Census Block Group Area (kilometers²)",
        y = "Count")
 
-ggsave(filename = here::here("figures/figS5.png"))
+ggsave(filename = file.path(.outPF, "figS5.png"))
 
 
