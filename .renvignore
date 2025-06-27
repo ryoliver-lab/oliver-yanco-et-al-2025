@@ -1,0 +1,6 @@
+out/*
+conda_envs/*
+.git/*
+slurm*
+raw_data*
+processed_data*
