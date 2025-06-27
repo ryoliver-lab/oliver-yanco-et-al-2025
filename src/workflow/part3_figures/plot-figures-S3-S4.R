@@ -109,7 +109,7 @@ area_int <- extract_species_slopes(mod = area_mod, param = "sg_diff:ghm_diff")
 
 (area_plot <- (area_sg$plot + ylim(-3,3)) + (area_int$plot + ylim(-1,1)) + plot_annotation(tag_levels = 'A'))
 
-ggsave(file.path(.outPF, "figS3.pdf"))
+ggsave(file.path(.outPF, "figS3.png"))
 
 niche_sg <- extract_species_slopes(mod = niche_mod, param = "sg_diff")
 niche_int <- extract_species_slopes(mod = niche_mod, param = "sg_diff:ghm_diff")
@@ -167,4 +167,4 @@ nicheA1_data$species <- as.factor(nicheA1_data$species)
 
 (niche_plot <- (nicheA1) + (niche_int$plot + ylim(-1,1)) + plot_annotation(tag_levels = 'A'))
 
-ggsave(file.path(.outPF, "figS4.pdf"))
+ggsave(file.path(.outPF, "figS4.png"))
