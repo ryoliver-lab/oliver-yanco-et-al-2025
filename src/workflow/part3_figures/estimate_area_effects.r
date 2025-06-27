@@ -94,9 +94,9 @@ add_modlist_full <- list.files(path=file.path(.datP, "area_additive/"),
                                full.names = T)
 add_sp <- word(add_modlist, 1, sep = "_")
 
-#check that lists are same
+# check that lists are same
+# should return all TRUE
 int_sp == add_sp
-
 
 #---- Estimate Effects ----#
 

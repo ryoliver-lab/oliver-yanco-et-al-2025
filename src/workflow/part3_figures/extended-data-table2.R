@@ -19,7 +19,9 @@ options(scipen = 999)
 # changes were not made to the species-specific model files, hence we do not 
 # update the names until the end when we create the df for the figure. 
 
-species_df <- read_csv(here("src", "species_list.csv"))
+.wd <- getwd()
+
+species_df <- read_csv(file.path(.wd, "out/species_list.csv"))
 all_species <- species_df$scientific_name
 
 interactive_spp <- c("Anas acuta",

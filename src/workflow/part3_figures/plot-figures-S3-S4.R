@@ -1,6 +1,7 @@
 # Plot figures S3 and S4 that represent the posterior distributions for species
-# estimates for effect of human mobility on area size and interactive effect 
-# of human modification and human mobility on area size.
+# estimates for effect of human mobility on area size and niche size and 
+# interactive effect of human modification and human mobility on area size and
+# niche size.
 
 library(brms)
 library(tidyverse)
@@ -15,8 +16,17 @@ library(patchwork)
 .outPF <- file.path(.wd, "out/figures")
 
 # load area and niche models
-area_mod <- file.path(.datPF, "size_intra_ind_int_rs_mod_2025-06-20.rdata")
-niche_mod <- file.path(.datPF, "niche_intra_ind_int_rs_mod_2025-06-21.rdata")
+load(list.files(path = .datPF, 
+                pattern = "^size_intra_ind_int_rs_mod_.*\\.rdata$", 
+                full.names = TRUE))
+
+area_mod <- out$model
+
+load(list.files(path = .datPF, 
+                pattern = "^niche_intra_ind_int_rs_mod_.*\\.rdata$", 
+                full.names = TRUE))
+
+niche_mod <- out$model
 
 # Function to get posterior of offsets
 extract_species_slopes <- function(mod, param) {
@@ -25,7 +35,14 @@ extract_species_slopes <- function(mod, param) {
   
   # Construct full parameter names
   fixed_name <- paste0("b_", param)
-  random_pattern <- paste0("r_species\\[.*?,", param, "\\]")
+  
+  # set a pattern based on if the model used species or scientific name for col
+  random_pattern <- ifelse(deparse(substitute(mod)) == "area_mod",
+                           paste0("r_species\\[.*?,", param, "\\]"),
+                           paste0("r_scientificname\\[.*?,", param, "\\]"))
+  #random_pattern <- paste0("r_species\\[.*?,", param, "\\]")
+  
+  print(paste0("pattern is: ", random_pattern))
   
   # Extract fixed effect vector
   fixed <- draws[[fixed_name]]
@@ -34,21 +51,31 @@ extract_species_slopes <- function(mod, param) {
   random_cols <- grep(random_pattern, colnames(draws), value = TRUE)
   
   # Reshape to long format and compute total slope
-  random_long <- draws %>%
-    select(all_of(random_cols)) %>%
-    mutate(.row = row_number()) %>%
-    pivot_longer(-.row, names_to = "param_name", values_to = "r_species") %>%
-    mutate(
-      species = gsub(paste0("r_species\\[(.*?),", param, "\\]"), "\\1", param_name),
-      fixed = fixed[.row],
-      total_slope = fixed + r_species
-    )
+  if (deparse(substitute(mod)) == "area_mod") {
+    random_long <- draws %>%
+      select(all_of(random_cols)) %>%
+      mutate(.row = row_number()) %>%
+      pivot_longer(-.row, names_to = "param_name", values_to = "r_species") %>%
+      mutate(
+        species = gsub(paste0("r_species\\[(.*?),", param, "\\]"), "\\1", param_name),
+        fixed = fixed[.row],
+        total_slope = fixed + r_species)
+  } else {
+    random_long <- draws %>%
+      select(all_of(random_cols)) %>%
+      mutate(.row = row_number()) %>%
+      pivot_longer(-.row, names_to = "param_name", values_to = "r_scientificname") %>%
+      mutate(
+        species = gsub(paste0("r_scientificname\\[(.*?),", param, "\\]"), "\\1", param_name),
+        fixed = fixed[.row],
+        total_slope = fixed + r_scientificname)
+  }
   
   # Summarize slope distributions by species
   slopes_sum <- random_long %>%
     group_by(species) %>%
     summarise(
-      pd = p_direction(total_slope),
+      pd = bayestestR::p_direction(total_slope),
       median_qi(total_slope, .width = 0.95),
       .groups = "drop"
     ) %>%
@@ -82,18 +109,21 @@ area_int <- extract_species_slopes(mod = area_mod, param = "sg_diff:ghm_diff")
 
 (area_plot <- (area_sg$plot + ylim(-3,3)) + (area_int$plot + ylim(-1,1)) + plot_annotation(tag_levels = 'A'))
 
-#TODO write out area_plot
-ggsave(area_plot, file.path(.outPF, ""))
+ggsave(file.path(.outPF, "figS3.pdf"))
 
 niche_sg <- extract_species_slopes(mod = niche_mod, param = "sg_diff")
 niche_int <- extract_species_slopes(mod = niche_mod, param = "sg_diff:ghm_diff")
 
-(nicheInset <- niche_sg$random_long %>% 
-    filter(species == "Antilocapra.americana") %>% 
+nicheInset_data <- niche_sg$random_long %>%
+  filter(species == "Antilocapra.americana")
+
+nicheInset_data$species <- as.factor(nicheInset_data$species)
+
+(nicheInset <- nicheInset_data %>% 
     ggplot(aes(x = reorder(species, total_slope), y = total_slope)) +
     stat_halfeye(.width = c(0.9, 0.5), fill = "#3182bd", alpha = 0.7, slab_color = NA) +
     # geom_pointrange(aes(ymin = ymin, ymax = ymax)) +
-    geom_hline(yintercept = median(fixed), linetype = "dashed") +
+    geom_hline(yintercept = median(nicheInset_data$fixed), linetype = "dashed") +
     geom_hline(yintercept = 0)+
     coord_flip() +
     labs(
@@ -106,19 +136,24 @@ niche_int <- extract_species_slopes(mod = niche_mod, param = "sg_diff:ghm_diff")
     theme(plot.title = element_text(hjust = 0, size = 10),
           axis.title = element_blank(),
           axis.text.y = element_blank()))
+
 nicheInset_grob <- ggplotGrob(nicheInset)
 
-(nicheA1 <- niche_sg$random_long %>% 
-    filter(species != "Antilocapra.americana") %>% 
+nicheA1_data <- niche_sg$random_long %>% 
+  filter(species != "Antilocapra.americana")
+
+nicheA1_data$species <- as.factor(nicheA1_data$species)
+
+(nicheA1 <- nicheA1_data %>% 
     ggplot(aes(x = reorder(species, total_slope), y = total_slope)) +
     stat_halfeye(.width = c(0.9, 0.5), fill = "#3182bd", alpha = 0.7, slab_color = NA) +
     # geom_pointrange(aes(ymin = ymin, ymax = ymax)) +
-    geom_hline(yintercept = median(fixed), linetype = "dashed") +
+    geom_hline(yintercept = median(nicheA1_data$fixed), linetype = "dashed") +
     geom_hline(yintercept = 0)+
     coord_flip() +
     labs(
       x = "Species",
-      y = glue("Slope: {param}"),
+      y = glue("Slope: sg_diff"),
       # title = "Posterior of species-specific effects"
     ) +
     ylim(-15,15)+
@@ -132,5 +167,4 @@ nicheInset_grob <- ggplotGrob(nicheInset)
 
 (niche_plot <- (nicheA1) + (niche_int$plot + ylim(-1,1)) + plot_annotation(tag_levels = 'A'))
 
-#TODO:  write out niche_plot
-ggsave(niche_plot, file.path(.outPF, ""))
+ggsave(file.path(.outPF, "figS4.pdf"))

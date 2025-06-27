@@ -80,14 +80,14 @@ list.files('src/funs/auto',full.names=TRUE) %>%
 #---- Load data ----#
 message("***LOADING DATA***")
 
-# #-- Interaction Models --#
-# 
+#-- Interaction Models --#
+
 message('Loading interaction models...')
 int_modlist <- list.files(path=file.path(.datP, "niche_interactive/"), full.names = F )
 int_modlist_full <- list.files( path=file.path(.datP, "niche_interactive/"), full.names = T)
 int_sp <- word(int_modlist, 1, sep = "_")
 
-# #-- Additive Models --#
+#-- Additive Models --#
 
 message('Loading additive models...')
 add_modlist <- list.files(path=file.path(.datP, "niche_additive/"), 

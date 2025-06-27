@@ -92,8 +92,6 @@ traits <- read_csv(.traitPF) %>%
   mutate(Species = case_when(Species == "Chen rossii" ~ "Anser rossii",
                              TRUE ~ Species))
 
-
-
 # #-- Interaction Models --#
 
 message('Loading interaction models...')
@@ -111,7 +109,8 @@ add_modlist_full <- list.files(path=file.path(.datP, "niche_additive/"),
 add_sp <- word(add_modlist, 1, sep = "_")
 
 
-#check that lists are same
+# check that lists are same
+# should return all TRUE
 int_sp == add_sp
 
 #---- Make Plots ----#

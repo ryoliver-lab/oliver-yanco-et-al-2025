@@ -6,20 +6,28 @@ rm(list = ls())
 .datPF <- file.path(.wd, "out/covid-results")
 
 # species results
-area_ghm_new <- read_csv(file.path(.datPF, "area_ghm_effects_2025-06-24.csv")) %>%
-  select(species)
+area_ghm_new <- read_csv(list.files(path = .datPF, 
+                                    pattern = "^area_ghm_effects_.*\\.csv$", 
+                                    full.names = TRUE)) %>%
+                select(species)
 
-area_sg_new <- read_csv(file.path(.datPF, "area_sg_effects_2025-06-24.csv")) %>%
-  mutate(response = rep("area_sg", nrow(.))) %>%
-  select(species)
+area_sg_new <- read_csv(list.files(path = .datPF, 
+                                   pattern = "^area_sg_effects_.*\\.csv$", 
+                                   full.names = TRUE)) %>%
+                mutate(response = rep("area_sg", nrow(.))) %>%
+                select(species)
 
-niche_ghm_new <- read_csv(file.path(.datPF, "niche_ghm_effects_2025-06-24.csv")) %>%
-  mutate(response = rep("niche_ghm", nrow(.))) %>%
-  select(species)
+niche_ghm_new <- read_csv(list.files(path = .datPF, 
+                                     pattern = "^niche_ghm_effects_.*\\.csv$", 
+                                     full.names = TRUE)) %>%
+                  mutate(response = rep("niche_ghm", nrow(.))) %>%
+                  select(species)
 
-niche_sg_new <- read_csv(file.path(.datPF, "niche_sg_effects_2025-06-24.csv")) %>%
-  mutate(response = rep("niche_sg", nrow(.))) %>%
-  select(species)
+niche_sg_new <- read_csv(list.files(path = .datPF, 
+                                    pattern = "^niche_sg_effects_.*\\.csv$", 
+                                    full.names = TRUE)) %>%
+                mutate(response = rep("niche_sg", nrow(.))) %>%
+                select(species)
 
 species_list <- data.frame(scientific_name = unique(c(
                                      area_ghm_new$species,

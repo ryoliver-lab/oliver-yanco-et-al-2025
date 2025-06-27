@@ -25,9 +25,9 @@ Options:
 #---- Input Parameters ----#
 if(interactive()) {
 
-  .wd <- ''
+  .wd <- getwd()
   .datP <- file.path(.wd,'out/single_species_models')
-  .traitPF <- '/home/julietcohen/covid_movement_full_repo/raw_data/anthropause_data_sheet.csv'
+  .traitPF <- file.path(.wd, 'raw_data/anthropause_data_sheet.csv')
   .outPF <- file.path(.wd,'out/figs/')
   
 } else {
@@ -103,7 +103,8 @@ add_modlist_full <- list.files(path=file.path(.datP, "area_additive/"),
 add_sp <- word(add_modlist, 1, sep = "_")
 
 
-#check that lists are same
+# check that lists are same
+# should return all TRUE
 int_sp == add_sp
 
 #---- Make Plots ----#

@@ -49,7 +49,7 @@ plot_model(mod,
   xlab("Sample Size (scaled)")+
   ggtitle("")
 
-ggsave(file.path(.outPF, "/check_area_sample_size_balance_dim9-6.png"), 
+ggsave(file.path(.outPF, "check_area_sample_size_balance.png"), 
        width = 9, 
        height = 6)
 

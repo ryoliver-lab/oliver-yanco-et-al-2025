@@ -88,7 +88,7 @@ list.files(file.path(.wd,'src/funs/auto'),full.names=TRUE) %>%
 message("Loading data...")
 
 # Load trait data
-traits <- read_csv("/home/julietcohen/covid_movement_full_repo/raw_data/anthropause_data_sheet.csv") %>%
+traits <- read_csv(file.path(.wd, "raw_data/anthropause_data_sheet.csv")) %>%
   add_row(Species = "Procyon lotor",
           class = "mammal",
           migratory = "non-migratory") %>% 
