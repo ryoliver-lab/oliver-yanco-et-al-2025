@@ -4,7 +4,7 @@
 #SBATCH --job-name part3_model_effects
 
 # set up paths for wd, src, R version, and conda env
-source config1.env
+source src/config1.env
 cd $wd
 
 module load $r_version
@@ -12,7 +12,7 @@ module load $r_version
 conda activate $conda_env_name
 
 # define paths for library and compiler
-source config2.env
+source src/config2.env
 
 # add logging to ensure the new shell is using the intended software
 echo "GDAL version:"
@@ -29,7 +29,7 @@ make --version
 
 echo "STARTING SCRIPT: select_space_use_model-effects.r" 
 
-Rscript $src/select_space_use_model-effects.r $wd/out/single_species_models $wd/out/covid-results $wd/raw_data/anthropause_data_sheet.csv
+Rscript $src_part3/select_space_use_model-effects.r $wd/out/single_species_models $wd/out/covid-results $wd/raw_data/anthropause_data_sheet.csv
 
 echo "SCRIPT COMPLETE: select_space_use_model-effects.r"
 
@@ -38,7 +38,7 @@ echo "SCRIPT COMPLETE: select_space_use_model-effects.r"
 
 echo "STARTING SCRIPT: estimate_area_effects.r" 
 
-Rscript $src/estimate_area_effects.r $wd/out/single_species_models $wd/out/covid-results
+Rscript $src_part3/estimate_area_effects.r $wd/out/single_species_models $wd/out/covid-results
 
 echo "SCRIPT COMPLETE: estimate_area_effects.r"
 
@@ -47,7 +47,7 @@ echo "SCRIPT COMPLETE: estimate_area_effects.r"
 
 echo "STARTING SCRIPT: select_niche_model_effects.r" 
 
-Rscript $src/select_niche_model-effects.r $wd/out/single_species_models $wd/out/covid-results $wd/raw_data/anthropause_data_sheet.csv
+Rscript $src_part3/select_niche_model-effects.r $wd/out/single_species_models $wd/out/covid-results $wd/raw_data/anthropause_data_sheet.csv
 
 echo "SCRIPT COMPLETE: select_niche_model_effects.r"
 
@@ -56,6 +56,6 @@ echo "SCRIPT COMPLETE: select_niche_model_effects.r"
 
 echo "STARTING SCRIPT: estimate_niche_effects.r" 
 
-Rscript $src/estimate_niche_effects.r $wd/out/single_species_models $wd/out/covid-results
+Rscript $src_part3/estimate_niche_effects.r $wd/out/single_species_models $wd/out/covid-results
 
 echo "SCRIPT COMPLETE: estimate_niche_effects.r"

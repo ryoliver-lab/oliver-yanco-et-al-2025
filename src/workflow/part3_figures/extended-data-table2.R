@@ -9,6 +9,8 @@ library(glue)
 library(janitor)
 options(scipen = 999)
 
+.wd <- getwd()
+
 ### Area
 
 # Define a list of the 9 species for which the interactive area model was 
@@ -17,9 +19,8 @@ options(scipen = 999)
 
 # Note that for species that had name changes (skunk, elk, goshawk) these name 
 # changes were not made to the species-specific model files, hence we do not 
-# update the names until the end when we create the df for the figure. 
-
-.wd <- getwd()
+# update the names until the end of the script when we create the df for the 
+# figure. 
 
 species_df <- read_csv(file.path(.wd, "out/species_list.csv"))
 all_species <- species_df$scientific_name
@@ -40,8 +41,8 @@ interactive_spp <- c("Anas acuta",
 
 area_all <- data.frame()
 
-area_additive_prefix <- file.path(here("src", "extended-data-table2", "single_species_models_final", "area_additive"))
-area_interactive_prefix <- file.path(here("src", "extended-data-table2", "single_species_models_final", "area_interactive"))
+area_additive_prefix <- file.path(.wd, "out/single_species_models/area_additive")
+area_interactive_prefix <- file.path(.wd, "out/single_species_models/area_interactive")
 
 for (sp in all_species){
   
@@ -108,7 +109,7 @@ area_all <- area_all %>%
 
 niche_all <- data.frame()
 
-niche_additive_prefix <- file.path(here("src", "extended-data-table2", "single_species_models_final", "niche_additive"))
+niche_additive_prefix <- file.path(.wd, "out/single_species_models_final/niche_additive")
 
 for (sp in all_species){
   
@@ -180,10 +181,10 @@ combined <- area_all %>%
 # Add a column for fix rate by joining the fix rate medians dataframe to the
 # combined df. This table with fix rate should be formatted for the PDF.
 
-med_fixrates <- read_csv(here("src/fixrate/fixrate_sp_median.csv")) %>% 
+med_fixrates <- read_csv(file.path(.wd, "out/fixrate_sp_median.csv")) %>% 
   select(species, med_fixrate_hours) %>% 
   mutate(med_fixrate_hours = round(med_fixrate_hours, 2))
 
 combined_w_fix <- merge(combined, med_fixrates, by = "species")
 
-write_csv(combined_w_fix, here("figures", "extended_data_table_2.csv"))
+write_csv(combined_w_fix, file.path(.wd, "out/figures/extended_data_table_2.csv"))

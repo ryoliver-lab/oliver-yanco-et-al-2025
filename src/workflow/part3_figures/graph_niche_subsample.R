@@ -74,4 +74,4 @@ ggplot(size_mod_out)+
   xlab("")+
   theme_classic()
 
-ggsave("out/niche_subsample_plot.png", width = 9, height = 6)
+ggsave("out/figures/niche_subsample_plot.png", width = 9, height = 6)

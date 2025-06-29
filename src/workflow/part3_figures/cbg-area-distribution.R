@@ -10,14 +10,15 @@ library(tidyverse)
 options(scipen = 999)
 
 .wd <- getwd()
+.datPF <- file.path(.wd, "out")
 .outPF <- file.path(.wd, "out/figures")
 
-int <- read_csv(here::here("src/cbg-area-distribution/event-cbg-intersection.csv"))
+int <- read_csv(file.path(.datPF, "event-cbg-intersection/event-cbg-intersection.csv"))
 
 # check number of census blocks groups that intersected points
 n_distinct(int$cbg_2010)
 
-area <- read_csv(here::here("src/cbg-area-distribution/cbg-area.csv"))
+area <- read_csv(file.path(.datPF, "event-annotation/cbg-area.csv"))
 
 # check number of unique census block groups
 n_distinct(area$cbg_2010)

@@ -7,7 +7,7 @@ library(here)
 
 rm(list = ls())
 .wd <- getwd()
-.datPF <- file.path(.wd, "covid-results")
+.datPF <- file.path(.wd, "out/intra-ind-models")
 .outPF <- file.path(.wd, "figures")
 
 #- Color palette
@@ -16,11 +16,15 @@ pal <- c("#9a7aa0ff","#fcaf58ff")
 #-- Load Data --#
 
 #- Niche model
-load(file.path(.datPF, "niche_intra_ind_int_rs_mod_2025-06-24.rdata"))
+load(list.files(path = .datPF, 
+                pattern = "^niche_intra_ind_int_rs_mod_.*\\.rdata$", 
+                full.names = TRUE))
 niche_int_mod <- out$model
 
 #- Area Model
-load(file.path(.datPF, "size_intra_ind_int_rs_mod_2025-06-24.rdata"))
+load(list.files(path = .datPF, 
+                pattern = "^size_intra_ind_int_rs_mod_.*\\.rdata$", 
+                full.names = TRUE))
 area_int_mod <- out$model
 
 #-- Plots --#

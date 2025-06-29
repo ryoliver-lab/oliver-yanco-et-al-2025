@@ -91,7 +91,7 @@ list.files(file.path(.wd,'src/funs/auto'),full.names=TRUE) %>%
 message("Loading data...")
 
 # Load trait data
-traits <- read_csv("/home/julietcohen/covid_movement_full_repo/raw_data/anthropause_data_sheet.csv") %>%
+traits <- read_csv(file.path(.wd, "raw_data/anthropause_data_sheet.csv")) %>%
   add_row(Species = "Procyon lotor",
           class = "mammal",
           migratory = "non-migratory") %>% 
@@ -124,7 +124,7 @@ size <- read_csv(file.path(.datPF)) %>%
   )) %>% 
   distinct()
 
-breadth <- read_csv("out/niche_determinant_anthropause.csv") %>%
+breadth <- read_csv("out/MVNH_size.csv") %>%
   mutate(scientificname = case_when( # correct species names
     studyid == 1442516400 ~ "Anser caerulescens",
     studyid == 1631574074 ~ "Ursus americanus",

@@ -1,13 +1,13 @@
 #!/bin/bash
 
-#SBATCH -t 24:00:00
+#SBATCH -t 48:00:00
 #SBATCH --job-name part2_step5
-#SBATCH -c 15
+#SBATCH -c 32
 #SBATCH --mem=300G
 
 
 # set up paths for wd, src, R version, and conda env
-source config1.env
+source src/config1.env
 cd $wd
 
 module load $r_version
@@ -15,7 +15,7 @@ module load $r_version
 conda activate $conda_env_name
 
 # define paths for library and compiler
-source config2.env
+source src/config2.env
 
 # add logging to ensure the new shell is using the intended software
 echo "GDAL version:"
@@ -32,7 +32,7 @@ make --version
 
 echo "STARTING SCRIPT: fit_intra_ind_int_mod_random_slopes_space.r"
 
-Rscript $src_part2/fit_intra_ind_int_mod_random_slopes_space.r $wd/out/dbbmm_size.csv $wd/out/intra_ind_models 12 10000 5
+Rscript $src_part2/fit_intra_ind_int_mod_random_slopes_space.r $wd/out/dbbmm_size.csv $wd/out/intra_ind_models 29 10000 5
 
 echo "SCRIPT COMPLETE: fit_intra_ind_int_mod_random_slopes_space.r"
 
@@ -41,7 +41,7 @@ echo "SCRIPT COMPLETE: fit_intra_ind_int_mod_random_slopes_space.r"
 
 echo "STARTING SCRIPT: fit_intra_ind_add_mod_random_slopes_space.r"
 
-Rscript $src_part2/fit_intra_ind_add_mod_random_slopes_space.r $wd/out/dbbmm_size.csv $wd/out/intra_ind_models 12 10000 2
+Rscript $src_part2/fit_intra_ind_add_mod_random_slopes_space.r $wd/out/dbbmm_size.csv $wd/out/intra_ind_models 29 10000 2
 
 echo "SCRIPT COMPLETE: fit_intra_ind_add_mod_random_slopes_space.r"
 

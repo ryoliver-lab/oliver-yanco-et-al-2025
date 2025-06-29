@@ -8,8 +8,8 @@ library(patchwork)
 options(scipen = 999)
 
 .wd <- getwd()
-.outPF <- file.path(.wd, "figures")
 .datPF <- file.path(.wd, "out")
+.outPF <- file.path(.wd, "out/figures")
 
 ud <- read_csv(file.path(.datPF, "dbbmm_size.csv")) %>% 
   mutate(area_km2 = area/1000000)
@@ -72,4 +72,4 @@ print(inset)
 
 distrib + inset_element(inset, left = 0.4, bottom = 0.16, right = 1, top = 0.8) + theme_gray()
 
-ggsave(filename = file.path(.outPF, "/figS6.png"))
+ggsave(filename = file.path(.outPF, "figS6.pdf"))

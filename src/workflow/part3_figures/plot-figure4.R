@@ -8,8 +8,8 @@ library(janitor)
 
 rm(list = ls())
 .wd <- getwd()
-.datPF <- file.path(.wd, "covid-results")
-.outPF <- file.path(.wd, "figures")
+.datPF <- file.path(.wd, "out/covid-results")
+.outPF <- file.path(.wd, "out/figures")
 
 ### select species to include in figure 4
 
@@ -27,10 +27,10 @@ niche_ghm <- read_model_results("niche_ghm_effects_2025-06-24.csv", "niche_ghm")
 niche_sg <- read_model_results("niche_sg_effects_2025-06-24.csv", "niche_sg")
 
 ### prediction results
-species_list <- read_csv(here::here("src","species_list.csv"))
+species_list <- read_csv(file.path(.wd, "out/species_list.csv"))
 
 ## area results
-pred_dat <- read_csv(here::here("covid-results", "area_change_prediction_2025-06-24.csv"))
+pred_dat <- read_csv(file.path(.datPF "area_change_prediction_2025-06-24.csv"))
 
 # create data frame of prediction results
 spl <- unique(pred_dat$species)
@@ -77,7 +77,7 @@ area_diff_df <- area_diff_df %>%
   filter(species != "Numenius americanus")
 
 ## niche results
-pred_dat <- read_csv(here::here("covid-results", "niche_change_prediction_2025-06-24.csv"))
+pred_dat <- read_csv(file.path(.datPF, "niche_change_prediction_2025-06-24.csv"))
 
 spl <- unique(pred_dat$species)
 
@@ -239,4 +239,3 @@ niche_diff_df_birds <- niche_diff_df %>%
 median(niche_diff_df_birds$percent_change)
 mean(niche_diff_df_birds$percent_change)
 range(niche_diff_df_birds$percent_change)
-

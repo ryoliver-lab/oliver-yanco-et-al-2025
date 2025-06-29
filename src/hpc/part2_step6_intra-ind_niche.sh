@@ -2,11 +2,11 @@
 
 #SBATCH -t 72:00:00
 #SBATCH --job-name part2_step6
-#SBATCH -c 15
+#SBATCH -c 32
 #SBATCH --mem=300G
 
 # set up paths for wd, src, R version, and conda env
-source config1.env
+source src/config1.env
 cd $wd
 
 module load $r_version
@@ -14,7 +14,7 @@ module load $r_version
 conda activate $conda_env_name
 
 # define paths for library and compiler
-source config2.env
+source src/config2.env
 
 # add logging to ensure the new shell is using the intended software
 echo "GDAL version:"
@@ -30,7 +30,7 @@ make --version
 
 echo "STARTING SCRIPT: fit_intra_ind_int_mod_random_slopes_niche.r"
 
-Rscript $src_part2/fit_intra_ind_int_mod_random_slopes_niche.r $wd/out/dbbmm_size.csv $wd/out/intra_ind_models 12 10000 5
+Rscript $src_part2/fit_intra_ind_int_mod_random_slopes_niche.r $wd/out/dbbmm_size.csv $wd/out/intra_ind_models 29 10000 5
 
 echo "SCRIPT COMPLETE: fit_intra_ind_int_mod_random_slopes_niche.r"
 
@@ -39,7 +39,7 @@ echo "SCRIPT COMPLETE: fit_intra_ind_int_mod_random_slopes_niche.r"
 
 echo "STARTING SCRIPT: fit_intra_ind_add_mod_random_slopes_niche.r"
 
-Rscript $src_part2/fit_intra_ind_add_mod_random_slopes_niche.r $wd/out/dbbmm_size.csv $wd/out/intra_ind_models 12 10000 5
+Rscript $src_part2/fit_intra_ind_add_mod_random_slopes_niche.r $wd/out/dbbmm_size.csv $wd/out/intra_ind_models 29 10000 5
 
 echo "SCRIPT COMPLETE: fit_intra_ind_add_mod_random_slopes_niche.r"
 

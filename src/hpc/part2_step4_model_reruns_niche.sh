@@ -6,7 +6,7 @@
 #SBATCH --mem 200GB
 
 # set up paths for wd, src, R version, and conda env
-source config1.env
+source src/config1.env
 cd $wd
 
 module load $r_version
@@ -14,7 +14,7 @@ module load $r_version
 conda activate $conda_env_name
 
 # define paths for library and compiler
-source config2.env
+source src/config2.env
 
 # add logging to ensure the new shell is using the intended software
 echo "GDAL version:"
@@ -46,10 +46,16 @@ echo "SCRIPT COMPLETE: refit-niche-breadth-interactive-models.r"
 
 # ------------ Model summary for reruns ------------
 
-echo "STARTING SCRIPT: niche_model_summaries_reruns.r"
+# NOTE: This script cannot be run without access to the cleaned database.
+#       Since the db cannot made publicly available on Open Science 
+#       Framework, this script has been commented out in part2_modeling, but the 
+#       output PDFs have been publicly archived (see model_diagnostics/area)
+#       and the script itself is available.
 
-Rscript $src_part2/niche_model_summaries_reruns.r
+#echo "STARTING SCRIPT: niche_model_summaries_reruns.r"
 
-echo "SCRIPT COMPLETE: niche_model_summaries_reruns.r"
+#Rscript $src_part2/niche_model_summaries_reruns.r
+
+#echo "SCRIPT COMPLETE: niche_model_summaries_reruns.r"
 
 echo "JOB COMPLETE"

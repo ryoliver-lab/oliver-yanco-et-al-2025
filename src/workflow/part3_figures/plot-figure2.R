@@ -6,8 +6,8 @@ library(here)
 
 rm(list = ls())
 .wd <- getwd()
-.datPF <- file.path(.wd, "covid-results")
-.outPF <- file.path(.wd, "figures")
+.datPF <- file.path(.wd, "out/covid-results")
+.outPF <- file.path(.wd, "out/figures")
 
 ### model results
 
@@ -26,7 +26,7 @@ niche_sg <- read_model_results("niche_sg_effects_2025-06-24.csv", "niche_sg")
 
 ### species list + taxonomy
 # read in species list
-species_list <- read_csv(here("src","species_list.csv"))
+species_list <- read_csv(here("out","species_list.csv"))
 # update taxa name for species to plot on different scale
 species_list$taxa[species_list$scientific_name== "Puma concolor"] <- "cougar"
 species_list$taxa[species_list$scientific_name== "Procyon lotor"] <- "raccoon" # new
@@ -128,7 +128,7 @@ p <- ggplot(results) +
         panel.spacing.y = unit(0.2, "lines"))
 
 # export figure 2a
-ggsave(p, file = here::here("figures", "fig2a.pdf"), width = 175, height = 120, units = "mm")
+ggsave(p, file = file.path(.outPF, "fig2a.pdf"), width = 175, height = 120, units = "mm")
 
 ### plot fig2b:
 
@@ -298,5 +298,3 @@ ggsave(p_all, file = file.path(.outPF, "fig2b.pdf"), width = 170, height = 30, u
 
 summarize_species_responses
 summarize_species_drivers
-
-

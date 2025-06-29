@@ -121,7 +121,7 @@ size <- read_csv(file.path(.datPF)) %>%
   )) %>% 
   distinct()
 
-breadth <- read_csv("out/niche_determinant_anthropause.csv") %>%
+breadth <- read_csv("out/MVNH_size.csv") %>%
   mutate(scientificname = case_when( # correct species names
     studyid == 1442516400 ~ "Anser caerulescens",
     studyid == 1631574074 ~ "Ursus americanus",

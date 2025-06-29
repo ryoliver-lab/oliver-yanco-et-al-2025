@@ -8,7 +8,7 @@
 source config1.env
 cd $wd
 
-# copy database from mosey output to ./raw_data
+# copy database from mosey output to raw_data dir
 cp $mosey_db_raw $wd/raw_data/mosey.db
 # copy database to /tmp on worker node
 cp $wd/raw_data/mosey.db /tmp/mosey_mod.db

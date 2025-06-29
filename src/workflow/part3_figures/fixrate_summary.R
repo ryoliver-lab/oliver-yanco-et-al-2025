@@ -13,7 +13,11 @@
 library(tidyverse)
 options(scipen = 999)
 
-fixrate_species <- read_csv(here::here("src/fixrate/fixrate_sp_median.csv"))
+.wd <- getwd()
+.datPF <- file.path(.wd, "out")
+.outPF <- file.path(.wd, "out/figures")
+
+fixrate_species <- read_csv(file.path(.datPF, "fixrate_sp_median.csv"))
 
 ggplot(fixrate_species, aes(x = species, y = med_fixrate_hours)) +
   geom_point(size = 2) +
@@ -24,4 +28,4 @@ ggplot(fixrate_species, aes(x = species, y = med_fixrate_hours)) +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 60, hjust = 1))
 
-ggsave(here::here("src/figures/fixrate_sp_median.png"))
+ggsave(file.path(.outPF, "fixrate_sp_median.png"))

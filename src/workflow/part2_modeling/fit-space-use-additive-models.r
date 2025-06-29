@@ -106,11 +106,6 @@ size <- read_csv("out/dbbmm_size.csv") %>%
     species == "Chen rossii" ~ "Anser rossii",
     TRUE ~ species
   )) %>% 
-  # exclude some individuals per data owner's request
-  filter(individual != 3418130234, 
-        individual != 3418130244, 
-        individual != 3418130245, 
-        individual != 3418130249) %>%
   distinct()
 
 # get ind count per species

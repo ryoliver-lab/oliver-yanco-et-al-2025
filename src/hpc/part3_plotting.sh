@@ -4,7 +4,7 @@
 #SBATCH --job-name part3_main_figs
 
 # set up paths for wd, src, R version, and conda env
-source config1.env
+source src/config1.env
 cd $wd
 
 module load $r_version
@@ -12,7 +12,7 @@ module load $r_version
 conda activate $conda_env_name
 
 # define paths for library and compiler
-source config2.env
+source src/config2.env
 
 # add logging to ensure the new shell is using the intended software
 echo "GDAL version:"
@@ -26,11 +26,11 @@ make --version
 
 # ------------ Create species list ------------
 
-echo "STARTING SCRIPT: create_species_list.R"
+echo "STARTING SCRIPT: create-species-list.R"
 
-Rscript $src/create_species_list.R
+Rscript $src_part3/create-species-list.R
 
-echo "SCRIPT COMPLETE: create_species_list.R"
+echo "SCRIPT COMPLETE: create-species-list.R"
 
 # ------------ Sum events per hex geometry ------------
 
@@ -51,7 +51,7 @@ echo "SCRIPT COMPLETE: create_species_list.R"
 
 echo "STARTING SCRIPT: plot-figure1.R"
 
-Rscript $src/plot-figure1.R
+Rscript $src_part3/plot-figure1.R
 
 echo "SCRIPT COMPLETE: plot-figure1.R"
 
@@ -59,7 +59,7 @@ echo "SCRIPT COMPLETE: plot-figure1.R"
 
 echo "STARTING SCRIPT: plot-figure2.R"
 
-Rscript $src/plot-figure2.R
+Rscript $src_part3/plot-figure2.R
 
 echo "SCRIPT COMPLETE: plot-figure2.R"
 
@@ -67,7 +67,7 @@ echo "SCRIPT COMPLETE: plot-figure2.R"
 
 echo "STARTING SCRIPT: plot-figure3.R"
 
-Rscript $src/plot-figure3.R
+Rscript $src_part3/plot-figure3.R
 
 echo "SCRIPT COMPLETE: plot-figure3.R"
 
@@ -75,7 +75,7 @@ echo "SCRIPT COMPLETE: plot-figure3.R"
 
 echo "STARTING SCRIPT: plot-figure4.R"
 
-Rscript $src/plot-figure4.R
+Rscript $src_part3/plot-figure4.R
 
 echo "SCRIPT COMPLETE: plot-figure4.R"
 
@@ -83,7 +83,7 @@ echo "SCRIPT COMPLETE: plot-figure4.R"
 
 echo "STARTING SCRIPT: fixrate_summary.R"
 
-Rscript $src/fixrate_summary.R
+Rscript $src_part3/fixrate_summary.R
 
 echo "SCRIPT COMPLETE: fixrate_summary.R"
 
@@ -91,7 +91,7 @@ echo "SCRIPT COMPLETE: fixrate_summary.R"
 
 echo "STARTING SCRIPT: cbg-area-distribution.R"
 
-Rscript $src/cbg-area-distribution.R
+Rscript $src_part3/cbg-area-distribution.R
 
 echo "SCRIPT COMPLETE: cbg-area-distribution.R"
 
@@ -99,7 +99,7 @@ echo "SCRIPT COMPLETE: cbg-area-distribution.R"
 
 echo "STARTING SCRIPT: dbbmm-area-distribution.R"
 
-Rscript $src/dbbmm-area-distribution.R
+Rscript $src_part3/dbbmm-area-distribution.R
 
 echo "SCRIPT COMPLETE: dbbmm-area-distribution.R"
 
@@ -107,7 +107,7 @@ echo "SCRIPT COMPLETE: dbbmm-area-distribution.R"
 
 echo "STARTING SCRIPT: extended-data-table2.R"
 
-Rscript $src/extended-data-table2.R
+Rscript $src_part3/extended-data-table2.R
 
 echo "SCRIPT COMPLETE: extended-data-table2.R"
 

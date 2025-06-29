@@ -135,12 +135,7 @@ breadth <- read_csv(.datPF) %>%
                            "individual" = "ind_id", 
                            "year" = "year", 
                            "studyid" = "study_id", 
-                           "week" = "wk")) %>%
-  # exclude some individuals per data owner's request
-  filter(individual != 3418130234, 
-        individual != 3418130244, 
-        individual != 3418130245, 
-        individual != 3418130249)
+                           "week" = "wk"))
 
 # get ind count per species
 sp_sum <- breadth %>%

@@ -1,3 +1,6 @@
+# Create CSV of all species in the analysis based on model results outptus
+# to be used by other scripts to produce figures
+
 library(data.table)
 library(tidyverse)
 
@@ -9,25 +12,25 @@ rm(list = ls())
 area_ghm_new <- read_csv(list.files(path = .datPF, 
                                     pattern = "^area_ghm_effects_.*\\.csv$", 
                                     full.names = TRUE)) %>%
-                select(species)
+                dplyr::select(species)
 
 area_sg_new <- read_csv(list.files(path = .datPF, 
                                    pattern = "^area_sg_effects_.*\\.csv$", 
                                    full.names = TRUE)) %>%
                 mutate(response = rep("area_sg", nrow(.))) %>%
-                select(species)
+                dplyr::select(species)
 
 niche_ghm_new <- read_csv(list.files(path = .datPF, 
                                      pattern = "^niche_ghm_effects_.*\\.csv$", 
                                      full.names = TRUE)) %>%
                   mutate(response = rep("niche_ghm", nrow(.))) %>%
-                  select(species)
+                  dplyr::select(species)
 
 niche_sg_new <- read_csv(list.files(path = .datPF, 
                                     pattern = "^niche_sg_effects_.*\\.csv$", 
                                     full.names = TRUE)) %>%
                 mutate(response = rep("niche_sg", nrow(.))) %>%
-                select(species)
+                dplyr::select(species)
 
 species_list <- data.frame(scientific_name = unique(c(
                                      area_ghm_new$species,

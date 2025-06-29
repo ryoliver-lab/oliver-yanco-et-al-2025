@@ -28,7 +28,7 @@ make --version
 
 echo "STARTING SCRIPT: graph_niche_subsample.R"
 
-Rscript $src/graph_niche_subsample.R
+Rscript $src_part3/graph_niche_subsample.R
 
 echo "SCRIPT COMPLETE: graph_niche_subsample.R"
 
@@ -36,7 +36,7 @@ echo "SCRIPT COMPLETE: graph_niche_subsample.R"
 
 echo "STARTING SCRIPT: check_area_size_sample_balance.R"
 
-Rscript $src/check_area_size_sample_balance.R
+Rscript $src_part3/check_area_size_sample_balance.R
 
 echo "SCRIPT COMPLETE: check_area_size_sample_balance.R"
 
@@ -44,7 +44,7 @@ echo "SCRIPT COMPLETE: check_area_size_sample_balance.R"
 
 echo "STARTING SCRIPT: check_intra_ind_mod_ac.R"
 
-Rscript $src/check_intra_ind_mod_ac.R
+Rscript $src_part3/check_intra_ind_mod_ac.R
 
 echo "SCRIPT COMPLETE: check_intra_ind_mod_ac.R"
 
