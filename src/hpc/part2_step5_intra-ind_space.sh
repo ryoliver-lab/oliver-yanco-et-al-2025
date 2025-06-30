@@ -32,7 +32,7 @@ make --version
 
 echo "STARTING SCRIPT: fit_intra_ind_int_mod_random_slopes_space.r"
 
-Rscript $src_part2/fit_intra_ind_int_mod_random_slopes_space.r $wd/out/dbbmm_size.csv $wd/out/intra_ind_models 29 10000 5
+Rscript $src_part2/fit_intra_ind_int_mod_random_slopes_space.r $wd/out/dbbmm_size.csv $wd/out/intra-ind-models 29 10000 5
 
 echo "SCRIPT COMPLETE: fit_intra_ind_int_mod_random_slopes_space.r"
 
@@ -41,7 +41,7 @@ echo "SCRIPT COMPLETE: fit_intra_ind_int_mod_random_slopes_space.r"
 
 echo "STARTING SCRIPT: fit_intra_ind_add_mod_random_slopes_space.r"
 
-Rscript $src_part2/fit_intra_ind_add_mod_random_slopes_space.r $wd/out/dbbmm_size.csv $wd/out/intra_ind_models 29 10000 2
+Rscript $src_part2/fit_intra_ind_add_mod_random_slopes_space.r $wd/out/dbbmm_size.csv $wd/out/intra-ind-models 29 10000 2
 
 echo "SCRIPT COMPLETE: fit_intra_ind_add_mod_random_slopes_space.r"
 

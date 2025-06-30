@@ -6,7 +6,7 @@ library(tidyverse)
 
 rm(list = ls())
 .wd <- getwd()
-.datPF <- file.path(.wd, "out/covid-results")
+.datPF <- file.path(.wd, "out/covid_results")
 
 # species results
 area_ghm_new <- read_csv(list.files(path = .datPF, 

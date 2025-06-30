@@ -32,7 +32,7 @@ if(interactive()) {
   .wd <- ''
   
   .datPF <- file.path(.wd,'out/dbbmm_size.csv')
-  .outP <- file.path(.wd,'out/intra_ind_models')
+  .outP <- file.path(.wd,'out/intra-ind-models')
   
   .cores <- 1
   .iter <- 10000

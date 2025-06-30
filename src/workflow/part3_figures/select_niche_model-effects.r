@@ -45,7 +45,7 @@ if(interactive()) {
   # .traitPF <- makePath(ag$trait)
   
   .datP <- file.path(.wd, "out/single_species_models")
-  .outPF <- file.path(.wd, "out/covid-results")
+  .outPF <- file.path(.wd, "out/covid_results")
   .traitPF <- file.path(.wd, "raw_data/anthropause_data_sheet.csv")
 }
 

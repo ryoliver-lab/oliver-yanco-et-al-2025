@@ -8,7 +8,7 @@ library(here)
 rm(list = ls())
 .wd <- getwd()
 .datPF <- file.path(.wd, "out/intra-ind-models")
-.outPF <- file.path(.wd, "figures")
+.outPF <- file.path(.wd, "out/figures")
 
 #- Color palette
 pal <- c("#9a7aa0ff","#fcaf58ff")

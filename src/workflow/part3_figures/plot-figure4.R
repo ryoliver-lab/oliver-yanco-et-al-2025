@@ -8,7 +8,7 @@ library(janitor)
 
 rm(list = ls())
 .wd <- getwd()
-.datPF <- file.path(.wd, "out/covid-results")
+.datPF <- file.path(.wd, "out/covid_results")
 .outPF <- file.path(.wd, "out/figures")
 
 ### select species to include in figure 4
@@ -198,7 +198,7 @@ p2 <- ggplot(data = niche_diff) +
 p <- p1/p2 +
   plot_layout(heights = c(2,1))
 
-ggsave(here::here("figures", "fig4.pdf"), height = 70, width = 90, units = "mm")
+ggsave(file.path(.outPF, "fig4.pdf"), height = 70, width = 90, units = "mm")
 
 ### data summaries
 print(paste0("non-significant area size: ",n_distinct(area_diff_non_sig$species), " species"))

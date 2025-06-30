@@ -72,6 +72,6 @@ ggplot(int_area_unique,
        x = "Census Block Group Area (kilometers²)",
        y = "Count")
 
-ggsave(filename = file.path(.outPF, "figS5.png"))
+ggsave(filename = file.path(.outPF, "figS5.pdf"))
 
 

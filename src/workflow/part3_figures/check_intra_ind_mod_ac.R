@@ -5,7 +5,7 @@
 library(tidyverse)
 
 .wd <- getwd()
-.datPF <- file.path(.wd, "out/intra_ind_models")
+.datPF <- file.path(.wd, "out/intra-ind-models")
 .outPF <- file.path(.wd, "out/figures")
 
 # --- AREA ---
@@ -83,4 +83,4 @@ plot <- ggplot(acf_plots, aes(x = acf1)) +
        y = "Count",
        title = "Niche Intra-Ind Model: Residual autocorrelation across individuals")
 
-ggsave(file.path(.outPF, "niche_ac_check.png"))
+ggsave(file.path(.outPF, "niche_ac_check.pdf"))

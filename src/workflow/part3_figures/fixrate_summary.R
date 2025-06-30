@@ -28,4 +28,4 @@ ggplot(fixrate_species, aes(x = species, y = med_fixrate_hours)) +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 60, hjust = 1))
 
-ggsave(file.path(.outPF, "fixrate_sp_median.png"))
+ggsave(file.path(.outPF, "fixrate_sp_median.pdf"))
