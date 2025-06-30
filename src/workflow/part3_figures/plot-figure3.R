@@ -123,53 +123,53 @@ ggsave(comb_plot, file = file.path(.outPF, "fig3.pdf"), height = 45, width = 90,
 ####----    Summarize effects Size ----####
 
 
-library(emmeans)
-library(bayestestR)
-##-- Niche  --##
-
-#- Get Marginal Effects at Median -#
-niche_med_sg <- median(niche_out$data$sg_diff, na.rm = T)
-niche_med_ghm <- median(niche_out$data$ghm_diff, na.rm = T)
-
-
-# Stash df in out lists
-(niche_ghm_effects <- emtrends(niche_int_mod, ~ "sg_diff", var = "ghm_diff", 
-                               at = list("sg_diff" = niche_med_sg))  %>% 
-    as.data.frame() %>% 
-    rename("Estimate" = "ghm_diff.trend",
-           "LCL" = "lower.HPD",
-           "HCL" = "upper.HPD") 
-)
-
-(niche_sg_effects <- emtrends(niche_int_mod, ~ "ghm_diff", var = "sg_diff", 
-                              at = list("ghm_diff" = niche_med_ghm))  %>% 
-    as.data.frame() %>% 
-    rename("Estimate" = "sg_diff.trend",
-           "LCL" = "lower.HPD",
-           "HCL" = "upper.HPD") 
-)
-
-parameters::parameters(niche_int_mod)
-
-##-- Area  --##
-
-#- Get Marginal Effects at Median -#
-area_med_sg <- median(area_out$data$sg_diff, na.rm = T)
-area_med_ghm <- median(area_out$data$ghm_diff, na.rm = T)
-
-# Stash df in out lists
-(area_ghm_effects <- emtrends(area_int_mod, ~ "sg_diff", var = "ghm_diff", 
-                              at = list("sg_diff" = area_med_sg))  %>% 
-    as.data.frame() %>% 
-    rename("Estimate" = "ghm_diff.trend",
-           "LCL" = "lower.HPD",
-           "HCL" = "upper.HPD") )
-
-(area_sg_effects <- emtrends(area_int_mod, ~ "ghm_diff", var = "sg_diff", 
-                             at = list("ghm_diff" = area_med_ghm))  %>% 
-    as.data.frame() %>% 
-    rename("Estimate" = "sg_diff.trend",
-           "LCL" = "lower.HPD",
-           "HCL" = "upper.HPD") )
-
-parameters::parameters(area_int_mod)
+# library(emmeans)
+# library(bayestestR)
+# ##-- Niche  --##
+# 
+# #- Get Marginal Effects at Median -#
+# niche_med_sg <- median(niche_out$data$sg_diff, na.rm = T)
+# niche_med_ghm <- median(niche_out$data$ghm_diff, na.rm = T)
+# 
+# 
+# # Stash df in out lists
+# (niche_ghm_effects <- emtrends(niche_int_mod, ~ "sg_diff", var = "ghm_diff", 
+#                                at = list("sg_diff" = niche_med_sg))  %>% 
+#     as.data.frame() %>% 
+#     rename("Estimate" = "ghm_diff.trend",
+#            "LCL" = "lower.HPD",
+#            "HCL" = "upper.HPD") 
+# )
+# 
+# (niche_sg_effects <- emtrends(niche_int_mod, ~ "ghm_diff", var = "sg_diff", 
+#                               at = list("ghm_diff" = niche_med_ghm))  %>% 
+#     as.data.frame() %>% 
+#     rename("Estimate" = "sg_diff.trend",
+#            "LCL" = "lower.HPD",
+#            "HCL" = "upper.HPD") 
+# )
+# 
+# parameters::parameters(niche_int_mod)
+# 
+# ##-- Area  --##
+# 
+# #- Get Marginal Effects at Median -#
+# area_med_sg <- median(area_out$data$sg_diff, na.rm = T)
+# area_med_ghm <- median(area_out$data$ghm_diff, na.rm = T)
+# 
+# # Stash df in out lists
+# (area_ghm_effects <- emtrends(area_int_mod, ~ "sg_diff", var = "ghm_diff", 
+#                               at = list("sg_diff" = area_med_sg))  %>% 
+#     as.data.frame() %>% 
+#     rename("Estimate" = "ghm_diff.trend",
+#            "LCL" = "lower.HPD",
+#            "HCL" = "upper.HPD") )
+# 
+# (area_sg_effects <- emtrends(area_int_mod, ~ "ghm_diff", var = "sg_diff", 
+#                              at = list("ghm_diff" = area_med_ghm))  %>% 
+#     as.data.frame() %>% 
+#     rename("Estimate" = "sg_diff.trend",
+#            "LCL" = "lower.HPD",
+#            "HCL" = "upper.HPD") )
+# 
+# parameters::parameters(area_int_mod)
