@@ -12,7 +12,7 @@ library(glue)
 library(patchwork)
 
 .wd <- getwd()
-.datPF <- file.path(.wd, "out/intra-ind-mods")
+.datPF <- file.path(.wd, "out/intra-ind-models")
 .outPF <- file.path(.wd, "out/figures")
 
 # load area and niche models

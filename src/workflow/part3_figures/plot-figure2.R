@@ -6,7 +6,7 @@ library(here)
 
 rm(list = ls())
 .wd <- getwd()
-.datPF <- file.path(.wd, "out/covid-results")
+.datPF <- file.path(.wd, "out/covid_results")
 .outPF <- file.path(.wd, "out/figures")
 
 ### model results

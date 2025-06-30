@@ -98,9 +98,9 @@ Sustainable human-wildlife coexistence requires a mechanistic understanding of t
   |    |
   |    +--/event-cbg-intersection
   |    |
-  |    +--/covid-results  # Output CSVs from scripts in part3_model_effects.sh
+  |    +--/covid_results  # Output CSVs from scripts in part3_model_effects.sh
   |    |
-  |    +--/figures        # Output figure PNGs and PDFs
+  |    +--/figures        # Output figures
   |    |
   |    +--/intra-ind-models  # Models for species with sufficient data in both 2019 & 2020
 

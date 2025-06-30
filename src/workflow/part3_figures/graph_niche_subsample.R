@@ -10,11 +10,15 @@ library(ggplot2)
 library(lme4)
 library(lmerTest)
 
-niche_sub_10 <- read_csv("out/niche_subsamples/MVNH_subsample_10.csv")
-niche_sub_20 <- read_csv("out/niche_subsamples/MVNH_subsample_20.csv")
-niche_sub_30 <- read_csv("out/niche_subsamples/MVNH_subsample_30.csv")
-niche_sub_40 <- read_csv("out/niche_subsamples/MVNH_subsample_40.csv")
-niche_sub_50 <- read_csv("out/niche_subsamples/MVNH_subsample_50.csv")
+.wd <- getwd()
+.datPF <- file.path(.wd, "out/niche_subsampling")
+.outPF <- file.path(.wd, "out/figures")
+
+niche_sub_10 <- read_csv(file.path(.datPF, "MVNH_subsample_10.csv"))
+niche_sub_20 <- read_csv(file.path(.datPF, "MVNH_subsample_20.csv"))
+niche_sub_30 <- read_csv(file.path(.datPF, "MVNH_subsample_30.csv"))
+niche_sub_40 <- read_csv(file.path(.datPF, "MVNH_subsample_40.csv"))
+niche_sub_50 <- read_csv(file.path(.datPF, "MVNH_subsample_50.csv"))
 
 # combine all into one df
 niche_sub <- rbind(niche_sub_10, niche_sub_20, niche_sub_30, niche_sub_40, niche_sub_50)
@@ -74,4 +78,4 @@ ggplot(size_mod_out)+
   xlab("")+
   theme_classic()
 
-ggsave("out/figures/niche_subsample_plot.png", width = 9, height = 6)
+ggsave(file.path(.outPF, "figS2.pdf"), width = 9, height = 6)

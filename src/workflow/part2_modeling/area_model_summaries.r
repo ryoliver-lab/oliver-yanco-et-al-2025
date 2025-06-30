@@ -7,7 +7,7 @@
 if(interactive()) {
   
   .wd <- ""
-  .datP <- file.path(.wd,'out/single_species_models_final')
+  .datP <- file.path(.wd,'out/single_species_models')
   .dbPF <- file.path(.wd,'processed_data/intermediate_db_copies/mosey_mod_clean-movement_complete.db')
 
 } else {

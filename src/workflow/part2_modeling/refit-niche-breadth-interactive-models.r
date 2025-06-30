@@ -24,7 +24,7 @@ if(interactive()) {
   
   .wd <- getwd()
   
-  .datPF <- file.path(.wd,'out/niche_determinant_anthropause.csv')
+  .datPF <- file.path(.wd,'out/MVNH_size.csv')
   .varPF <- file.path(.wd, "out/dbbmm_size.csv")
   .outP <- file.path(.wd,'out/single_species_models/niche')
   

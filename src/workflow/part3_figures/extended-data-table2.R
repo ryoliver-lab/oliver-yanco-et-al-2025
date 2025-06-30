@@ -109,7 +109,7 @@ area_all <- area_all %>%
 
 niche_all <- data.frame()
 
-niche_additive_prefix <- file.path(.wd, "out/single_species_models_final/niche_additive")
+niche_additive_prefix <- file.path(.wd, "out/single_species_models/niche_additive")
 
 for (sp in all_species){
   
@@ -187,4 +187,4 @@ med_fixrates <- read_csv(file.path(.wd, "out/fixrate_sp_median.csv")) %>%
 
 combined_w_fix <- merge(combined, med_fixrates, by = "species")
 
-write_csv(combined_w_fix, file.path(.wd, "out/figures/extended_data_table_2.csv"))
+write_csv(combined_w_fix, file.path(.wd, "out/figures/tableS2.csv"))
