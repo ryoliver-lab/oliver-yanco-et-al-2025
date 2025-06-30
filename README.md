@@ -48,6 +48,12 @@ Sustainable human-wildlife coexistence requires a mechanistic understanding of t
   |   |  +--/counties-dates-2-10-22-reformatted
   |   |     |
   |   |     +--/daily-data
+  |   |
+  +--/gee_data            # Used during environmental annotation steps in part 1
+  |   |
+  |   +--/annotated
+  |   |
+  |   +--/csvs_gee_ingest
   |   |  
   |   |
   +--/out                 # Analytical outputs, interim products
@@ -107,45 +113,50 @@ The wildlife movement data that serves as input for part 1 of the workflow are a
 ### Part 1: Data Prep
 
 **R scripts:** `src/workflow/part1_data_prep`
+
 **SLURM scripts:** `src/hpc/part1*.sh`
 
-- Build database of wildlife movement data for 37 bird and mammal species pulled from [Movebank]((https://www.movebank.org/cms/movebank-main)) studies.
-  - Data are stored as a [mosey_db](https://github.com/benscarlson/mosey_db), a SQLite relational database built to store data from [Movebank](www.movebank.org).
-  - [This repository release](https://github.com/julietcohen/mosey_db/releases/tag/v1.0.0) includes the forked `mosey_db` code used to build the database used as input for this repository's workflow.
+- Build database of wildlife movement data for 37 bird and mammal species pulled from [Movebank](https://www.movebank.org/cms/movebank-main) studies.
+  - Data are stored as a [mosey_db](https://github.com/benscarlson/mosey_db), a SQLite relational database built to store data from Movebank.
+  - [This repository release](https://github.com/julietcohen/mosey_db/releases/tag/v1.0.0) includes the forked `mosey_db` code used to build the animal movement database used as input for this repository's workflow part1.
 - Subset wildlife movement data to region and time period of interest.
 - Annotate database with environmental layers for temperature, NDVI, and elevation.
 - Annotate database with human mobility using daily mobile device counts.
 - Annotate database with landscape modification based on a multi-year aggregated metric of anthropogenic modification. 
 - Filter database for analysis minimum criteria.
 - Clean database, including removing outlier events.
-- Produce utilization distributions via dynamic Brownian bridge movement models for each individual-week combination.
-- Estimate environmental niche size based on the pooled variance of multidimensional hypervolumes of the environmental conditions.
+- Estimate utilization distributions via dynamic Brownian bridge movement models for each individual-week combination.
+- Estimate environmental niche sizes based on the pooled variance of multidimensional hypervolumes of the environmental conditions.
+- Execute niche breadth sensitivity analysis.
+- Calculate fix rate per species.
 
 ### Part 2: Modeling
 
 Use tabular niche and space use estimations for each individual-week as input to species-specific Bayesian mixed effects models across all species.
 
 **R scripts:** `src/workflow/part2_modeling`
+
 **SLURM scripts:** `src/hpc/part2*.sh`
 
 - Fit space use interactive and additive models.
 - Fit niche interactive and additive models.
-- Fit intra-individual interactive and additive models for individuals with data in both 2019 and 2020.
-- Select interactive or additive models based on significance.
-- Produce model summaries and plot results.
+- Fit intra-individual interactive and additive models for individuals with sufficient data in both 2019 and 2020.
+- Select interactive or additive models based on significance and produce model summaries.
 
 ### Part 3: Figures
 
 **R scripts:** `src/workflow/part3_figures`
+
 **SLURM scripts:** `src/hpc/part3*.sh`
 
+- Summarize model effects from single species models.
 - Wildlife responses to the major components of human activity across the United States (Fig 1)
 - Interacting effects of human activities on wildlife’s use of geographic and environmental space (Fig 2)
 - Plastic behavioral responses to human mobility (Fig 3)
 - Combined impact of human activities on wildlife use of geographic and environmental space (Fig 4) 
 - Relationship between weekly area size and weekly sample size (Fig S1)
-- Niche breadth subsample sizes (Fig S2)
-- Fix rate median per species (Table S2)
+- Plot niche breadth subsample sizes (Fig S2)
+-  (Table S2)
 - Posterior distributions of species-specific estimates (Figs S3 and S4):
   - effect of human mobility on area size 
   - interactive effect of human modification and human mobility on area size
@@ -166,9 +177,17 @@ conda env create -f conda_envs/r_spatial2_direct_dependencies_environment.yml
 
 #### R
 
-This workflow was run with R 4.3.1. All necessary packages with specified versions can be installed with   [renv](https://rstudio.github.io/renv/articles/renv.html).
+This workflow was run with R 4.3.1. Necessary packages with specified versions can be installed with   [renv](https://rstudio.github.io/renv/articles/renv.html).
 
-[renv documentation]
+In order to activate the R env documented in this repo, clone the repo and run `renv::restore()`. 
+
+For the few packages that failed to install within the archived `rgee` environment, the user can install them into their R environment afterwards as needed. This may be the case in particular for part 3.
+
+#### Config and running locally versus on HPC
+
+Update files `config1.env` and `config2.env` to local filepaths prior to running workflow on a server. These are read in by the shell scripts to activate the conda environment, set working directory to the repository root, and other filepaths. 
+
+The workflow is set up to run on a server using sequential SLURM jobs (shell scripts). Alternatively, users can run through all scripts locally for parts 2 and 3 by following the order of scripts and the arguments provided in the shell scripts. Note that the cores arguments specified in shell scripts exceed the amount available for most machines, so these values will need to be reduced. Reducing the cores will increase the run times. Any modeling steps can be skipped and instead the output models can be downloaded from the OSF project and used as input into sequential scripts.
 
 ### Contributing
 
