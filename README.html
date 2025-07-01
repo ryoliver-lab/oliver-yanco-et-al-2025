@@ -409,53 +409,70 @@ management.</p>
   |  
   +--/raw_data            # Raw data stored as initially received, inlcuding database
   |  
-  +--/processed_data      # Processed data products, including the working version of the database
-  |  
+  +--/processed_data      # Processed data products
+  |   |
+  |   +--/intermediate_db_copies  # Working version of the database
+  |   |   
+  |   +--/safegraph
+  |   |  |
+  |   |  +--/counties-dates-2-10-22-reformatted
+  |   |     |
+  |   |     +--/daily-data
+  |   |
+  +--/gee_data            # Used during environmental annotation steps in part 1
+  |   |
+  |   +--/annotated
+  |   |
+  |   +--/csvs_gee_ingest
+  |   |  
+  |   |
   +--/out                 # Analytical outputs, interim products
   |    |
-  |    +--single_species_models
+  |    +--/single_species_models  # Single species model .rdata files
   |    |   |
-  |    |   +--niche_interactive
+  |    |   +--/niche_interactive
   |    |   |
-  |    |   +--niceh_additive
+  |    |   +--/niche_additive
   |    |   |
-  |    |   +--area-interactive
+  |    |   +--/area-interactive
   |    |   |
-  |    |   +--area_additive
+  |    |   +--/area_additive
   |    |
-  |   +--single_species_models_reruns
+  |   +--/single_species_models_reruns
   |    |   |
-  |    |   +--niche_interactive
+  |    |   +--/niche_interactive
   |    |   |
-  |    |   +--niche_additive
+  |    |   +--/niche_additive
   |    |   |
-  |    |   +--area_interactive
+  |    |   +--/area_interactive
   |    |   |
-  |    |   +--area_additive
+  |    |   +--/area_additive
   |    |
-  |    +--model_diagnostics
+  |    +--/model_diagnostics  # Single species model summary PDFs
   |    |   |
-  |    |   +--area
+  |    |   +--/area
   |    |   |
-  |    |   +--niche
+  |    |   +--/niche
   |    |
-  |    +--model_diagnostics_reruns
+  |    +--/model_diagnostics_reruns
   |    |   |
-  |    |   +--area
+  |    |   +--/area
   |    |   |
-  |    |   +--niche
+  |    |   +--/niche
   |    |
-  |    +--safegraph_summary
+  |    +--/safegraph_summary
   |    |
-  |    +--dbbmms
+  |    +--/dbbmms         # Utilization distributions for individual-weeks
   |    |
-  |    +--event-annotation
+  |    +--/event-annotation
   |    |
-  |    +--event-cbg-intersection
+  |    +--/event-cbg-intersection
   |    |
-  |    +--figs
+  |    +--/covid_results  # Output CSVs from scripts in part3_model_effects.sh
   |    |
-  |    +--intra-ind-models
+  |    +--/figures        # Output figures
+  |    |
+  |    +--/intra-ind-models  # Models for species with sufficient data in both 2019 &amp; 2020
 </code></pre>
 </div>
 <div id="data-availability" class="section level3">
@@ -466,25 +483,26 @@ Data Repository</a> for reproducibility. See the manuscript’s
 supplementary table 1 for DOIs and dataset contacts. Select species data
 could not be made public due to conservation concerns. The secondary
 data products used as input to part 2 of the workflow is publicly
-available on OSF: <a href>DOI ___</a>. These tabular data products
-contain all species and individuals in the analysis with environmental
-and anthropogenic annotations derived from the animal GPS locations.</p>
+available on OSF: <a href="https://osf.io/3ua2c/">DOI
+10.17605/OSF.IO/3UA2C</a>. These tabular data products contain all
+species and individuals in the analysis with environmental and
+anthropogenic annotations derived from the animal GPS locations.</p>
 </div>
 <div id="part-1-data-prep" class="section level3">
 <h3>Part 1: Data Prep</h3>
-<p><strong>R scripts:</strong> <code>src/workflow/part1_data_prep</code>
-<strong>SLURM scripts:</strong> <code>src/hpc/part1*.sh</code></p>
+<p><strong>R scripts:</strong>
+<code>src/workflow/part1_data_prep</code></p>
+<p><strong>SLURM scripts:</strong> <code>src/hpc/part1*.sh</code></p>
 <ul>
 <li>Build database of wildlife movement data for 37 bird and mammal
-species pulled from <a href="(https://www.movebank.org/cms/movebank-main)">Movebank</a>
-studies.
+species pulled from <a href="https://www.movebank.org/cms/movebank-main">Movebank</a> studies.
 <ul>
 <li>Data are stored as a <a href="https://github.com/benscarlson/mosey_db">mosey_db</a>, a SQLite
-relational database built to store data from <a href="www.movebank.org">Movebank</a>.</li>
+relational database built to store data from Movebank.</li>
 <li><a href="https://github.com/julietcohen/mosey_db/releases/tag/v1.0.0">This
 repository release</a> includes the forked <code>mosey_db</code> code
-used to build the database used as input for this repository’s
-workflow.</li>
+used to build the animal movement database used as input for this
+repository’s workflow part1.</li>
 </ul></li>
 <li>Subset wildlife movement data to region and time period of
 interest.</li>
@@ -496,10 +514,12 @@ counts.</li>
 aggregated metric of anthropogenic modification.</li>
 <li>Filter database for analysis minimum criteria.</li>
 <li>Clean database, including removing outlier events.</li>
-<li>Produce utilization distributions via dynamic Brownian bridge
+<li>Estimate utilization distributions via dynamic Brownian bridge
 movement models for each individual-week combination.</li>
-<li>Estimate environmental niche size based on the pooled variance of
+<li>Estimate environmental niche sizes based on the pooled variance of
 multidimensional hypervolumes of the environmental conditions.</li>
+<li>Execute niche breadth sensitivity analysis.</li>
+<li>Calculate fix rate per species.</li>
 </ul>
 </div>
 <div id="part-2-modeling" class="section level3">
@@ -507,22 +527,25 @@ multidimensional hypervolumes of the environmental conditions.</li>
 <p>Use tabular niche and space use estimations for each individual-week
 as input to species-specific Bayesian mixed effects models across all
 species.</p>
-<p><strong>R scripts:</strong> <code>src/workflow/part2_modeling</code>
-<strong>SLURM scripts:</strong> <code>src/hpc/part2*.sh</code></p>
+<p><strong>R scripts:</strong>
+<code>src/workflow/part2_modeling</code></p>
+<p><strong>SLURM scripts:</strong> <code>src/hpc/part2*.sh</code></p>
 <ul>
 <li>Fit space use interactive and additive models.</li>
 <li>Fit niche interactive and additive models.</li>
 <li>Fit intra-individual interactive and additive models for individuals
-with data in both 2019 and 2020.</li>
-<li>Select interactive or additive models based on significance.</li>
-<li>Produce model summaries and plot results.</li>
+with sufficient data in both 2019 and 2020.</li>
+<li>Select interactive or additive models based on significance and
+produce model summaries.</li>
 </ul>
 </div>
 <div id="part-3-figures" class="section level3">
 <h3>Part 3: Figures</h3>
-<p><strong>R scripts:</strong> <code>src/workflow/part3_figures</code>
-<strong>SLURM scripts:</strong> <code>src/hpc/part3*.sh</code></p>
+<p><strong>R scripts:</strong>
+<code>src/workflow/part3_figures</code></p>
+<p><strong>SLURM scripts:</strong> <code>src/hpc/part3*.sh</code></p>
 <ul>
+<li>Summarize model effects from single species models.</li>
 <li>Wildlife responses to the major components of human activity across
 the United States (Fig 1)</li>
 <li>Interacting effects of human activities on wildlife’s use of
@@ -532,8 +555,8 @@ geographic and environmental space (Fig 2)</li>
 and environmental space (Fig 4)</li>
 <li>Relationship between weekly area size and weekly sample size (Fig
 S1)</li>
-<li>Niche breadth subsample sizes (Fig S2)</li>
-<li>Fix rate median per species (Table S2)</li>
+<li>Plot niche breadth subsample sizes (Fig S2)</li>
+<li>(Table S2)</li>
 <li>Posterior distributions of species-specific estimates (Figs S3 and
 S4):
 <ul>
@@ -560,17 +583,38 @@ environment.</p>
 </div>
 <div id="r" class="section level4">
 <h4>R</h4>
-<p>This workflow was run with R 4.3.1. All necessary packages with
-specified versions can be installed with <a href="https://rstudio.github.io/renv/articles/renv.html">renv</a>.</p>
-<p>[renv documentation]</p>
+<p>This workflow was run with R 4.3.1. Necessary packages with specified
+versions can be installed with <a href="https://rstudio.github.io/renv/articles/renv.html">renv</a>.</p>
+<p>In order to activate the R env documented in this repo, clone the
+repo and run <code>renv::restore()</code>.</p>
+<p>For the few packages that failed to install within the archived
+<code>rgee</code> environment, the user can install them into their R
+environment afterwards as needed. This may be the case in particular for
+part 3.</p>
+</div>
+<div id="config-and-running-locally-versus-on-hpc" class="section level4">
+<h4>Config and running locally versus on HPC</h4>
+<p>Update files <code>config1.env</code> and <code>config2.env</code> to
+local filepaths prior to running workflow on a server. These are read in
+by the shell scripts to activate the conda environment, set working
+directory to the repository root, and other filepaths.</p>
+<p>The workflow is set up to run on a server using sequential SLURM jobs
+(shell scripts). Alternatively, users can run through all scripts
+locally for parts 2 and 3 by following the order of scripts and the
+arguments provided in the shell scripts. Note that the cores arguments
+specified in shell scripts exceed the amount available for most
+machines, so these values will need to be reduced. Reducing the cores
+will increase the run times. Any modeling steps can be skipped and
+instead the output models can be downloaded from the OSF project and
+used as input into sequential scripts.</p>
 </div>
 </div>
 <div id="contributing" class="section level3">
 <h3>Contributing</h3>
-<p>Contact information:</p>
+<p>Contacts:</p>
 <ul>
-<li>Ruth Oliver (<a href="mailto:rutholiver@ucsb.edu" class="email">rutholiver@ucsb.edu</a>)</li>
-<li>Scott Yanco (<a href="mailto:yancos@si.edu" class="email">yancos@si.edu</a>)</li>
+<li>Ruth Oliver <a href="mailto:rutholiver@ucsb.edu" class="email">rutholiver@ucsb.edu</a></li>
+<li>Scott Yanco <a href="mailto:yancos@si.edu" class="email">yancos@si.edu</a></li>
 </ul>
 <p>We welcome feedback and questions. Please open an issue or create a
 fork of this repository.</p>
