@@ -15,9 +15,9 @@ if(interactive()) {
 
   library(here)
   
-  .wd <- '/home/sy522/project/covid-19_movement'
+  .wd <- ''
   .test <- TRUE
-  .dbPF <- '/home/sy522/project/covid-19_movement/processed_data/mosey_mod.db'
+  .dbPF <- ''
   .datPF <- file.path(.wd,'raw_data/')
   .outPF <- file.path(.wd,'out/')
   
@@ -28,7 +28,7 @@ if(interactive()) {
 
   .wd <- getwd()
   .dbPF <- '/tmp/mosey_mod.db'
-  .datPF <- file.path('/home/julietcohen/covid_movement_full_repo/raw_data/')
+  .datPF <- file.path(.wd, 'raw_data/')
   .outPF <- file.path(.wd,'out/')
 }
 

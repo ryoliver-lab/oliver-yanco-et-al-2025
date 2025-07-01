@@ -407,13 +407,13 @@ management.</p>
   | 
   +--/conda_envs          # Stores .yml files with conda environment specifications
   |  
-  +--/raw_data            # Raw data stored as initially received, inlcuding database
+  +--/raw_data            # Raw data stored as initially received, including database
   |  
   +--/processed_data      # Processed data products
   |   |
   |   +--/intermediate_db_copies  # Working version of the database
   |   |   
-  |   +--/safegraph
+  |   +--/safegraph       # Human mobility data used for part 1
   |   |  |
   |   |  +--/counties-dates-2-10-22-reformatted
   |   |     |
@@ -481,12 +481,16 @@ management.</p>
 workflow are archived publicly on the <a href="https://www.movebank.org/cms/movebank-content/data-repository">Movebank
 Data Repository</a> for reproducibility. See the manuscript’s
 supplementary table 1 for DOIs and dataset contacts. Select species data
-could not be made public due to conservation concerns. The secondary
-data products used as input to part 2 of the workflow is publicly
-available on OSF: <a href="https://osf.io/3ua2c/">DOI
-10.17605/OSF.IO/3UA2C</a>. These tabular data products contain all
-species and individuals in the analysis with environmental and
-anthropogenic annotations derived from the animal GPS locations.</p>
+could not be made public due to conservation concerns. Human mobility
+data used in part 1 for one component of the anthropogenic annotation
+cannot be made publically available. The secondary data products used as
+input to parts 2 and 3 of the workflow are publicly available on OSF: <a href="https://osf.io/3ua2c/">DOI 10.17605/OSF.IO/3UA2C</a>. These
+tabular data products contain all species and individuals in the
+analysis with environmental and anthropogenic annotations derived from
+the animal GPS locations and timestamps. Users interested in reproducing
+the workflow are encouraged to start at part 2 with these secondary
+products downloaded from OSF and stored in the <code>/out</code>
+directory.</p>
 </div>
 <div id="part-1-data-prep" class="section level3">
 <h3>Part 1: Data Prep</h3>
@@ -556,7 +560,8 @@ and environmental space (Fig 4)</li>
 <li>Relationship between weekly area size and weekly sample size (Fig
 S1)</li>
 <li>Plot niche breadth subsample sizes (Fig S2)</li>
-<li>(Table S2)</li>
+<li>Summarize sample sizes for area and niche single species models
+presented in Fig 2, paired with fix rate (Table S2)</li>
 <li>Posterior distributions of species-specific estimates (Figs S3 and
 S4):
 <ul>
@@ -579,32 +584,34 @@ size</li>
 these installations on your machine, run the following commands in a
 terminal from the root of this repository to recreate our conda
 environment.</p>
-<pre><code>conda env create -f conda_envs/r_spatial2_direct_dependencies_environment.yml</code></pre>
+<pre><code>conda env create -f conda_envs/r_spatial2_direct_dependencies_environment.yml
+
+conda activate r_spatial2</code></pre>
 </div>
 <div id="r" class="section level4">
 <h4>R</h4>
-<p>This workflow was run with R 4.3.1. Necessary packages with specified
+<p>This workflow was run with R/4.3.1. Necessary packages with specified
 versions can be installed with <a href="https://rstudio.github.io/renv/articles/renv.html">renv</a>.</p>
 <p>In order to activate the R env documented in this repo, clone the
 repo and run <code>renv::restore()</code>.</p>
 <p>For the few packages that failed to install within the archived
-<code>rgee</code> environment, the user can install them into their R
+<code>renv</code> environment, the user can install them into their R
 environment afterwards as needed. This may be the case in particular for
 part 3.</p>
 </div>
 <div id="config-and-running-locally-versus-on-hpc" class="section level4">
 <h4>Config and running locally versus on HPC</h4>
 <p>Update files <code>config1.env</code> and <code>config2.env</code> to
-local filepaths prior to running workflow on a server. These are read in
-by the shell scripts to activate the conda environment, set working
-directory to the repository root, and other filepaths.</p>
+include local filepaths prior to running workflow on a server. These are
+read in by the shell scripts to activate the conda environment, activate
+R, set working directory to the repository root, etc.</p>
 <p>The workflow is set up to run on a server using sequential SLURM jobs
-(shell scripts). Alternatively, users can run through all scripts
-locally for parts 2 and 3 by following the order of scripts and the
-arguments provided in the shell scripts. Note that the cores arguments
-specified in shell scripts exceed the amount available for most
-machines, so these values will need to be reduced. Reducing the cores
-will increase the run times. Any modeling steps can be skipped and
+launched via shell scripts. Alternatively, users can run through all
+scripts locally for parts 2 and 3 by following the order of scripts and
+the arguments provided in the shell scripts. Note that the cores
+arguments specified in shell scripts exceed the amount available for
+most machines, so these values will need to be reduced. Reducing the
+cores will increase the run times. Any modeling steps can be skipped and
 instead the output models can be downloaded from the OSF project and
 used as input into sequential scripts.</p>
 </div>
