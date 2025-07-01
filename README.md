@@ -108,7 +108,7 @@ Sustainable human-wildlife coexistence requires a mechanistic understanding of t
 
 ### Data Availability
 
-The wildlife movement data that serves as input for part 1 of the workflow are archived publicly on the [Movebank Data Repository](https://www.movebank.org/cms/movebank-content/data-repository) for reproducibility. See the manuscript's supplementary table 1 for DOIs and dataset contacts. Select species data could not be made public due to conservation concerns. The secondary data products used as input to part 2 of the workflow is publicly available on OSF: [DOI ___](). These tabular data products contain all species and individuals in the analysis with environmental and anthropogenic annotations derived from the animal GPS locations.
+The wildlife movement data that serves as input for part 1 of the workflow are archived publicly on the [Movebank Data Repository](https://www.movebank.org/cms/movebank-content/data-repository) for reproducibility. See the manuscript's supplementary table 1 for DOIs and dataset contacts. Select species data could not be made public due to conservation concerns. The secondary data products used as input to part 2 of the workflow is publicly available on OSF: [DOI 10.17605/OSF.IO/3UA2C](https://osf.io/3ua2c/). These tabular data products contain all species and individuals in the analysis with environmental and anthropogenic annotations derived from the animal GPS locations.
 
 ### Part 1: Data Prep
 
