@@ -162,8 +162,9 @@ Use tabular niche and space use estimations for each individual-week as input to
   - interactive effect of human modification and human mobility on area size
   - effect of human mobility on niche size 
   - interactive effect of human modification and human mobility on niche size
-- Distribution of census block sizes (Fig S5)
+- Distribution of census block group sizes (Fig S5)
 - Distribution of utilization distribution sizes (Fig S6)
+- Species-specific distributions of census block group sizes and utilization distribution sizes
 
 ### Development Environment
 
