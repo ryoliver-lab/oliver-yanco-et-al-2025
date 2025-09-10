@@ -111,4 +111,17 @@ Rscript $src_part3/extended-data-table2.R
 
 echo "SCRIPT COMPLETE: extended-data-table2.R"
 
+# ------------ CBG & UD area by species ------------
+
+# NOTE: This script cannot be run without access to the cleaned database
+#       and the CBG event intersection CVS with the event_id attribute.
+#       Since these materials cannot made publicly available on Open Science 
+#       Framework, this script has been commented out.
+
+#echo "STARTING SCRIPT: cbg-ud-distributions-sp.R"
+
+#Rscript $src_part3/cbg-ud-distributions-sp.R
+
+#echo "SCRIPT COMPLETE: cbg-ud-distributions-sp.R"
+
 echo "JOB COMPLETE"
