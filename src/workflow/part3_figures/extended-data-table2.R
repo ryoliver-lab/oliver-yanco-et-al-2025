@@ -13,9 +13,10 @@ options(scipen = 999)
 
 ### Area
 
-# Define a list of the 9 species for which the interactive area model was 
-# selected. This was created by looking at all 37 model diagnostic PDFs. The 
-# species not listed had the additive model selected.
+# Define the species for which the interactive area model was selected. 
+# This is pulled from area_mod_summary and niche_mod_summary outputs
+# from part3_model_effects scripts.
+# Species not listed had the additive model selected.
 
 # Note that for species that had name changes (skunk, elk, goshawk) these name 
 # changes were not made to the species-specific model files, hence we do not 
@@ -25,15 +26,17 @@ options(scipen = 999)
 species_df <- read_csv(file.path(.wd, "out/species_list.csv"))
 all_species <- species_df$scientific_name
 
-interactive_spp <- c("Anas acuta",
-                     "Anas discors",
-                     "Canis lupus",
-                     "Cervus elaphus",
-                     "Lynx rufus",
-                     "Meleagris gallopavo",
-                     "Numenius americanus",
-                     "Odocoileus hemionus",
-                     "Puma concolor")
+area_int_spp <- read_csv(file.path(.wd, "out/covid_results", 
+                                   (list.files(file.path(.wd, "out/covid_results"), 
+                                               pattern = "^area_mod_summary.*\\.csv")[1]))) %>% 
+                filter(model == "int") %>% 
+                pull(species)
+
+niche_int_spp <- read_csv(file.path(.wd, "out/covid_results", 
+                                    (list.files(file.path(.wd, "out/covid_results"), 
+                                                pattern = "^niche_mod_summary.*\\.csv")[1]))) %>% 
+                 filter(model == "int") %>% 
+                 pull(species)
 
 # Loop through all 37 species and load the selected model file to extract the 
 # number of individuals, weeks, and individual-years. These values are stored in 
@@ -43,6 +46,8 @@ area_all <- data.frame()
 
 area_additive_prefix <- file.path(.wd, "out/single_species_models/area_additive")
 area_interactive_prefix <- file.path(.wd, "out/single_species_models/area_interactive")
+niche_additive_prefix <- file.path(.wd, "out/single_species_models/niche_additive")
+niche_interactive_prefix <- file.path(.wd, "out/single_species_models/niche_interactive")
 
 for (sp in all_species){
   
@@ -50,7 +55,7 @@ for (sp in all_species){
   
   # Load either the interactive or additive model,
   # depending on which was selected
-  if (sp %in% interactive_spp){
+  if (sp %in% area_int_spp){
     
     mod <- list.files(area_interactive_prefix, 
                       pattern = paste0("^", sp), 
@@ -104,20 +109,27 @@ area_all <- area_all %>%
 
 ### Niche
 
-# Repeat the same process for niche models, but since all niche models selected 
-# additive, there's no need to bother with loading any interactive models.
+# Repeat the same process for niche models
 
 niche_all <- data.frame()
-
-niche_additive_prefix <- file.path(.wd, "out/single_species_models/niche_additive")
 
 for (sp in all_species){
   
   print(paste0("Processing ", sp))
   
-  mod <- list.files(niche_additive_prefix, 
-                    pattern = paste0("^", sp), 
-                    full.names = TRUE)
+  # Load either the interactive or additive model,
+  # depending on which was selected
+  if (sp %in% area_int_spp){
+    
+    mod <- list.files(niche_interactive_prefix, 
+                      pattern = paste0("^", sp), 
+                      full.names = TRUE)
+    
+  } else {
+    mod <- list.files(niche_additive_prefix, 
+                      pattern = paste0("^", sp), 
+                      full.names = TRUE)
+  }
   
   print(paste0("Loading model ", mod))
   load(mod)
