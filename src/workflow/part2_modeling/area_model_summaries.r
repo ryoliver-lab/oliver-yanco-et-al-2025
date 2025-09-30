@@ -6,9 +6,9 @@
 #---- Input Parameters ----#
 if(interactive()) {
   
-  .wd <- "~/repositories/oliver-yanco-et-al-2025/"
-  .datP <- file.path(.wd,'out/single_species_models_box/single_species_models_final')
-  .dbPF <- file.path('~/repositories/human_mobility_wildlife/processed_data/intermediate_db_copies/mosey_mod_clean-movement_complete.db')
+  .wd <- ""
+  .datP <- file.path(.wd,'')
+  .dbPF <- file.path('')
 
 } else {
 
@@ -109,12 +109,10 @@ for(i in 1:length(int_modlist_full)){
     intmod <- out$model # store as object
     #sp <- out$species # extract sp
     
-    #fe <- fixef(intmod) # get fixed effects # old_s3
-    fe <- parameters(intmod) #get fixed effects # new_s4
+    fe <- parameters(intmod) #get fixed effects
     re <- posterior_summary(intmod, variable = c("sd_grp__Intercept", "sigma")) # get random effects
     
-    # if(fe["sg_norm:ghm_scale", "Q2.5"] < 0 & 0 < fe["sg_norm:ghm_scale", "Q97.5"]){ # old_s3 # if the interaction effect overlaps 0...
-    if(fe$pd[fe$Parameter=="b_sg_norm:ghm_scale"] < 0.95 & fe$pd[fe$Parameter=="b_sg_norm:ghm_scale"] > 0.05){
+    if(fe$pd[fe$Parameter=="b_sg_norm:ghm_scale"] < 0.95 & fe$pd[fe$Parameter=="b_sg_norm:ghm_scale"] > 0.05){ # if the interaction effect overlaps 0...
       
       #... load the additive model instead.
       if(add_modlist_full[i] != "NULL"){
@@ -140,8 +138,8 @@ for(i in 1:length(int_modlist_full)){
           }
 
         out_add <- out
-        fe_add <- fixef(out_add$model) #get fixed effects # old_s3
-        #fe_add <- parameters(out_add$model) # new_s4
+        fe_add <- fixef(out_add$model) #get fixed effects
+        #fe_add <- parameters(out_add$model)
         mod <- "additive"
         variable <- "area size"
 
@@ -337,7 +335,7 @@ for(i in 1:length(int_modlist_full)){
                                     plot_layout(design = design)))
 
         # Write out plot
-        ggsave(model_out, filename = glue(.wd, "out/model_diagnostics_testing/area/{sp}.pdf"), 
+        ggsave(model_out, filename = glue(.wd, "out/model_diagnostics/area/{sp}.pdf"), 
                width = 10, height = 20, device = cairo_pdf)
         
       } # if add model is not NULL
@@ -551,7 +549,7 @@ for(i in 1:length(int_modlist_full)){
                                   plot_layout(design = design)))
 
       # Write out plot
-      ggsave(model_out, filename = glue(.wd, "out/model_diagnostics_testing/area/{sp}.pdf"), 
+      ggsave(model_out, filename = glue(.wd, "out/model_diagnostics/area/{sp}.pdf"), 
               width = 10, height = 20, device = cairo_pdf)
       
     } # else collect the interactions
