@@ -90,7 +90,7 @@ for(i in 1:length(int_modlist_full)){
     fe <- parameters(intmod) #get fixed effects
     re <- posterior_summary(intmod, variable = c("sd_grp__Intercept", "sigma")) # get random effects
     
-    if(fe$pd[fe$Parameter=="b_sg_norm:ghm_scale"] < 0.95 & fe$pd[fe$Parameter=="b_sg_norm:ghm_scale"] > 0.05){ # if the interaction effect overlaps 0...
+    if(fe$pd[fe$Parameter=="b_sg_norm:ghm_scale"] < 0.95 & fe$pd[fe$Parameter=="b_sg_norm:ghm_scale"] > 0.05){ # if the interacton effect is non-sig...
       
       #... load the additive model instead.
       if(add_modlist_full[i] != "NULL"){
@@ -178,7 +178,7 @@ for(i in 1:length(int_modlist_full)){
                width = 10, height = 20, device = cairo_pdf)
         
       } # if add model is not NULL
-    } else { #if the interaction CIs DONT overlap 0...
+    } else {
       
       #-- INTERACTIVE --#
       #- Model Basics -#        
@@ -263,8 +263,6 @@ for(i in 1:length(int_modlist_full)){
   } #else
   
 }# i 
-
-#dbDisconnect(db)
 
 message("all done....")
 
