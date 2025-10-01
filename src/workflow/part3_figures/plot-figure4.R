@@ -30,7 +30,7 @@ niche_sg <- read_model_results("niche_sg_effects_2025-06-24.csv", "niche_sg")
 species_list <- read_csv(file.path(.wd, "out/species_list.csv"))
 
 ## area results
-pred_dat <- read_csv(file.path(.datPF "area_change_prediction_2025-06-24.csv"))
+pred_dat <- read_csv(file.path(.datPF, "area_change_prediction_2025-06-24.csv"))
 
 # create data frame of prediction results
 spl <- unique(pred_dat$species)
@@ -152,15 +152,15 @@ p1 <- ggplot(data = area_diff) +
   scale_fill_manual(values = c("#1481BA","#cbd081")) +
   scale_color_manual(values = c("#1481BA","#cbd081")) +
   geom_vline(aes(xintercept = 0), linetype = "solid", size = 0.5, alpha = 0.8, color = "black") +
-  theme_minimal() +
+  theme_minimal(base_family = "Helvetica") +
   theme(
     panel.grid.minor.y = element_blank(),
     panel.grid.minor.x = element_blank(),
     axis.line.x = element_line(colour = "#4a4e4d", linewidth =0.3, linetype='solid'),
     legend.position = "none",
     legend.title = element_blank(),
-    axis.text = element_text(size = 7),
-    axis.title = element_text(size = 7),
+    axis.text = element_text(size = 7, family = "Helvetica"),
+    axis.title = element_text(size = 7, family = "Helvetica"),
     axis.ticks.x = element_line(color = "#4a4e4d")) +
   scale_y_continuous(breaks = seq(0,10, by = 2), expand = expansion(mult = c(0.05, 0.05))) +  
   scale_x_continuous(breaks = seq(-6,6, by = 1),
@@ -176,15 +176,15 @@ p2 <- ggplot(data = niche_diff) +
   scale_fill_manual(values = c("#1481BA","#cbd081")) +
   scale_color_manual(values = c("#1481BA","#cbd081")) +
   geom_vline(aes(xintercept = 0), linetype = "solid", size = 0.5, alpha = 0.8, color = "black") +
-  theme_minimal() +
+  theme_minimal(base_family = "Helvetica") +
   theme(
     panel.grid.minor.y = element_blank(),
     panel.grid.minor.x = element_blank(),
     axis.line.x = element_line(colour = "#4a4e4d", linewidth =0.3, linetype='solid'),
     legend.position = "none",
     legend.title = element_blank(),
-    axis.text = element_text(size = 7),
-    axis.title = element_text(size = 7),
+    axis.text = element_text(size = 7, family = "Helvetica"),
+    axis.title = element_text(size = 7, family = "Helvetica"),
     axis.ticks.x = element_line(color = "#4a4e4d")) +
   scale_y_continuous(breaks = seq(0,10, by = 2), expand = expansion(mult = c(0.15, 0.15))) +  
   scale_x_continuous(breaks = seq(-6,6, by = 1),
@@ -201,41 +201,41 @@ p <- p1/p2 +
 ggsave(file.path(.outPF, "fig4.pdf"), height = 70, width = 90, units = "mm")
 
 ### data summaries
-print(paste0("non-significant area size: ",n_distinct(area_diff_non_sig$species), " species"))
-print(paste0("non-significant niche size: ",n_distinct(niche_diff_non_sig$species), " species"))
-
-range(area_diff_df$percent_change)
-range(niche_diff_df$percent_change)
-
-
-area_diff_df_mammals <- area_diff_df %>%
-  filter(taxa == "mammals")
-  
-
-median(area_diff_df_mammals$percent_change)
-range(area_diff_df_mammals$diff_km)
-
-area_diff_df_birds <- area_diff_df %>%
-  filter(taxa == "birds") 
-
-median(area_diff_df_birds$percent_change)
-range(area_diff_df_birds$diff_km)
-
-
-median(niche_diff_df$percent_change)
-mean(niche_diff_df$percent_change)
-range(niche_diff_df$percent_change)
-
-niche_diff_df_mammals <- niche_diff_df %>%
-  filter(taxa == "mammals")
-
-median(niche_diff_df_mammals$percent_change)
-mean(niche_diff_df_mammals$percent_change)
-range(niche_diff_df_mammals$percent_change)
-
-niche_diff_df_birds <- niche_diff_df %>%
-  filter(taxa == "birds") 
-
-median(niche_diff_df_birds$percent_change)
-mean(niche_diff_df_birds$percent_change)
-range(niche_diff_df_birds$percent_change)
+# print(paste0("non-significant area size: ",n_distinct(area_diff_non_sig$species), " species"))
+# print(paste0("non-significant niche size: ",n_distinct(niche_diff_non_sig$species), " species"))
+# 
+# range(area_diff_df$percent_change)
+# range(niche_diff_df$percent_change)
+# 
+# 
+# area_diff_df_mammals <- area_diff_df %>%
+#   filter(taxa == "mammals")
+#   
+# 
+# median(area_diff_df_mammals$percent_change)
+# range(area_diff_df_mammals$diff_km)
+# 
+# area_diff_df_birds <- area_diff_df %>%
+#   filter(taxa == "birds") 
+# 
+# median(area_diff_df_birds$percent_change)
+# range(area_diff_df_birds$diff_km)
+# 
+# 
+# median(niche_diff_df$percent_change)
+# mean(niche_diff_df$percent_change)
+# range(niche_diff_df$percent_change)
+# 
+# niche_diff_df_mammals <- niche_diff_df %>%
+#   filter(taxa == "mammals")
+# 
+# median(niche_diff_df_mammals$percent_change)
+# mean(niche_diff_df_mammals$percent_change)
+# range(niche_diff_df_mammals$percent_change)
+# 
+# niche_diff_df_birds <- niche_diff_df %>%
+#   filter(taxa == "birds") 
+# 
+# median(niche_diff_df_birds$percent_change)
+# mean(niche_diff_df_birds$percent_change)
+# range(niche_diff_df_birds$percent_change)

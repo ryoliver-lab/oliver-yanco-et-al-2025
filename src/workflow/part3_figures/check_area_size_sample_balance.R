@@ -7,11 +7,13 @@ library(ggplot2)
 library(lme4)
 library(sjPlot)
 library(here)
+library(glue)
+library(bayestestR)
 
 .wd <- getwd()
 .outPF <- file.path(.wd, "out/figures")
 
-size_dat <- read_csv(file.path(.wd, "out/dbbmm_size.csv")) %>% 
+size_dat <- read_csv(file.path(.wd, "out/dbbmm_size.csv")) %>%
   # filter(area < 20000000000) %>% 
   mutate(ind_f = as.factor(ind_id),
          log_area = log(area), # get log of weekly area use
@@ -41,6 +43,12 @@ summary(mod)
 
 confint(mod)
 
+parameters::parameters(mod, test = "pd")
+
+pd(mod)
+
+save(mod, file = glue("{.outPF}/area_size_sample_balance.rdata"))
+
 plot_model(mod, 
            type = "eff",
            terms = "scale_n")+
@@ -49,9 +57,7 @@ plot_model(mod,
   xlab("Sample Size (scaled)")+
   ggtitle("")
 
-ggsave(file.path(.outPF, "check_area_sample_size_balance.pdf"), 
-       width = 9, 
+ggsave(file.path(.outPF, "check_area_sample_size_balance.pdf"),
+       width = 9,
        height = 6)
-
-
 

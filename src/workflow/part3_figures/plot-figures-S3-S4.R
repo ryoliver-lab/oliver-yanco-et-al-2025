@@ -35,6 +35,11 @@ extract_species_slopes <- function(mod, param) {
   
   # Construct full parameter names
   fixed_name <- paste0("b_", param)
+  # Construct parameter axes label in plot
+  if (param == "sg_diff"){
+    param_axis_label <- paste0("Posterior distribution of\neffect of human mobility")
+  } else if (param == "sg_diff:ghm_diff")
+    param_axis_label <- paste0("Posterior distribution of interactive effect of\nhuman mobility and landscape modification")
   
   # set a pattern based on if the model used species or scientific name for col
   random_pattern <- ifelse(deparse(substitute(mod)) == "area_mod",
@@ -89,7 +94,7 @@ extract_species_slopes <- function(mod, param) {
     coord_flip() +
     labs(
       x = "Species",
-      y = glue("Slope: {param}"),
+      y = glue("{param_axis_label}"),
       # title = "Posterior of species-specific effects"
     ) +
     theme_minimal()+
@@ -104,12 +109,18 @@ extract_species_slopes <- function(mod, param) {
   )
 }
 
+# --- fig S3 --- #
+
 area_sg <- extract_species_slopes(mod = area_mod, param = "sg_diff")
 area_int <- extract_species_slopes(mod = area_mod, param = "sg_diff:ghm_diff")
 
 (area_plot <- (area_sg$plot + ylim(-3,3)) + (area_int$plot + ylim(-1,1)) + plot_annotation(tag_levels = 'A'))
 
-ggsave(file.path(.outPF, "figS3.png"))
+ggsave(plot = area_plot, 
+       filename = file.path(.outPF, "figS3.png"),
+       width = 12, height = 12)
+
+# --- fig S4 --- #
 
 niche_sg <- extract_species_slopes(mod = niche_mod, param = "sg_diff")
 niche_int <- extract_species_slopes(mod = niche_mod, param = "sg_diff:ghm_diff")
@@ -153,7 +164,7 @@ nicheA1_data$species <- as.factor(nicheA1_data$species)
     coord_flip() +
     labs(
       x = "Species",
-      y = glue("Slope: sg_diff"),
+      y = paste0("Posterior distribution of\neffect of human mobility"),
       # title = "Posterior of species-specific effects"
     ) +
     ylim(-15,15)+
@@ -167,4 +178,6 @@ nicheA1_data$species <- as.factor(nicheA1_data$species)
 
 (niche_plot <- (nicheA1) + (niche_int$plot + ylim(-1,1)) + plot_annotation(tag_levels = 'A'))
 
-ggsave(file.path(.outPF, "figS4.png"))
+ggsave(plot = niche_plot, 
+       filename = file.path(.outPF, "figS4.png"),
+       width = 12, height = 12)
