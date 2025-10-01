@@ -1,3 +1,20 @@
+---
+title: "plot-figure2"
+format: 
+  html:
+    self-contained: true
+    code-fold: false
+    code-tools: true
+    code-summary: "Show code"
+execute:
+  warning: false
+  message: false
+  echo: true
+---
+
+Plot figure 2 and report statistics for manuscript. This qmd duplicates the code in `plot-figure2.R`.
+
+```{r}
 library(tidyverse)
 library(ggplot2)
 library(patchwork)
@@ -6,15 +23,14 @@ library(here)
 library(systemfonts)
 
 rm(list = ls())
-.wd <- getwd()
-.datPF <- file.path(.wd, "out/covid_results")
-.outPF <- file.path(.wd, "out/figures")
+```
 
-### model results
+Model results
 
+```{r}
 # create function to data wrangle model results
 read_model_results <- function(file_name, response){
-  results <- read_csv(file.path(.datPF, file_name)) %>%
+  results <- read_csv(here::here("covid-results",file_name)) %>%
     mutate(response = rep(response, nrow(.))) %>%
     select(species, Estimate, LCL, HCL, sig_code, response)
 }
@@ -27,7 +43,7 @@ niche_sg <- read_model_results("niche_sg_effects_2025-06-24.csv", "niche_sg")
 
 ### species list + taxonomy
 # read in species list
-species_list <- read_csv(here("out","species_list.csv"))
+species_list <- read_csv(here("src","species_list.csv"))
 # update taxa name for species to plot on different scale
 species_list$taxa[species_list$scientific_name== "Puma concolor"] <- "cougar"
 species_list$taxa[species_list$scientific_name== "Procyon lotor"] <- "raccoon" # new
@@ -55,11 +71,11 @@ results$response <- factor(results$response,
                            levels = c("area_sg", "niche_sg", "area_ghm", "niche_ghm"))
 results$taxa <- factor(results$taxa,
                        levels = c("mammals","cougar","raccoon","birds","curlew"))
+```
 
+Plot fig 2a
 
-
-### plot fig 2a
-
+```{r}
 x_label <- "Effect size"
 
 p <- ggplot(results) +
@@ -111,7 +127,7 @@ p <- ggplot(results) +
                             "Bald eagle"=expression(bold("Bald eagle")),
                             "Mallard"=expression(bold(Mallard)),
                             "American goshawk"=expression(bold("American goshawk")),
-                            parse=TRUE)) +
+                             parse=TRUE)) +
   
   xlab(x_label) +
   theme_minimal(base_family = "Helvetica") +
@@ -130,14 +146,18 @@ p <- ggplot(results) +
         panel.spacing.y = unit(0.2, "lines"))
 
 # export figure 2a
-ggsave(p, file = file.path(.outPF, "fig2a.pdf"), width = 175, height = 120, units = "mm")
+ggsave(p, file = here::here("figures", "fig2a.pdf"), width = 184, height = 120, units = "mm")
 
-### plot fig2c: types of responses
-# includes species with no responses, 1 response, or both 
-# response to area & niche. Group data for each category by driver (mobility or modification)
-# and species, then summarize quantity of species that fit into the 0, 1, or 2 response categories.
-# Further subset the 1 response category to niche-only or area-only for a total of 4 categories
+```
 
+Plot fig2c: types of responses
+
+- includes species with no responses, 1 response, or both 
+- response to area & niche. Group data for each category by driver (mobility or modification)
+- and species, then summarize quantity of species that fit into the 0, 1, or 2 response categories.
+- Further subset the 1 response category to niche-only or area-only for a total of 4 categories
+
+```{r}
 # subset results to species with either high_int or sig_add (a response to a driver)
 results_clean <- results %>%
   mutate(driver = ifelse(response %in% c("area_sg", "niche_sg"), "mobility", "modification"),
@@ -234,13 +254,16 @@ p_drivers <- ggplot(summarize_species_drivers, aes(fill=response, y=driver, x=pe
 
 p_drivers
 
-### plot fig2b: drivers of responses
-# includes species with no drivers, 1 driver, or both  drivers to area & niche. 
-# Group data for each category by driver (mobility or modification) and species,
-# then summarize quantity of species that fit into the 0, 1, or 2 response 
-# categories. Further subset the 1 response category to niche-only or area-only
-# for a total of 4 categories
+```
 
+Plot fig2b: drivers of responses
+
+- includes species with no drivers, 1 driver, or both  drivers to area & niche. 
+- Group data for each category by driver (mobility or modification) and species,
+- then summarize quantity of species that fit into the 0, 1, or 2 response 
+- categories. Further subset the 1 response category to niche-only or area-only for a total of 4 categories
+
+```{r}
 # count number of species that don't show drivers in area OR niche size per response
 species_no_drivers <- results %>%
   mutate(driver = ifelse(response %in% c("area_sg", "niche_sg"), "mobility", "modification"),
@@ -305,7 +328,7 @@ total_species_responses <- summarize_species_responses %>%
 summarize_species_responses <- summarize_species_responses %>%
   left_join(., total_species_responses, by = "response") %>%
   mutate("percent_species" = (n_species/n_total)*100)
-
+            
 p_responses <- ggplot(summarize_species_responses, aes(fill=driver, y=response, x=percent_species)) + 
   geom_bar(position="stack", stat="identity") +
   scale_fill_manual(values = c("#726D74","#878188", "#B9B5BA","#DCDCDD")) +
@@ -326,37 +349,47 @@ p_responses <- ggplot(summarize_species_responses, aes(fill=driver, y=response, 
 
 p_responses
 
-# export figures
+```
+
+Export figures
+
+```{r}
 p_all <- p_responses + p_drivers
 
-ggsave(p_all, file = file.path(.outPF, "fig2b.pdf"), width = 170, height = 30, units = "mm")
+ggsave(p_all, file = here::here("figures", "fig2b.pdf"), width = 184, height = 30, units = "mm")
 
 summarize_species_responses
 summarize_species_drivers
+```
 
-# print statements based on % of mammals and birds with sig responses
+Print statements based on % of mammals and birds with sig responses
 
-# define values applied to all statements
+Define values applied to all statements
+
+```{r}
 n_bird_spp <- nrow(species_list %>% filter(taxa %in% c("birds", "curlew")))
 n_mammal_spp <- nrow(species_list %>% filter(taxa %in% c("mammals", "raccoon", "cougar")))
 
 # add driver attribute
 results <- results %>% 
-  mutate(driver = ifelse(response %in% c("area_sg", "niche_sg"), "mobility", "modification"))
+           mutate(driver = ifelse(response %in% c("area_sg", "niche_sg"), "mobility", "modification"))
 
 results$response <- as.character(results$response)
 
-# statement 1: # of species with significant response to human mobility in EITHER area or niche size / total # of species
+```
 
+Statement 1: # of species with significant response to human mobility in EITHER area or niche size / total # of species
+
+```{r}
 sig_s1_birds <- results %>%
-  filter(sig_code %in% c("high_int", "sig_add") & driver == "mobility", # safegraph area OR niche
-         taxa %in% c("birds", "curlew"))
+                filter(sig_code %in% c("high_int", "sig_add") & driver == "mobility", # safegraph area OR niche
+                       taxa %in% c("birds", "curlew"))
 
 n_sig_s1_birds <- n_distinct(sig_s1_birds$species)
 
 sig_s1_mammals <- results %>%
-  filter(sig_code %in% c("high_int", "sig_add") & driver == "mobility", # safegraph area OR niche
-         taxa %in% c("mammals", "raccoon", "cougar"))
+                  filter(sig_code %in% c("high_int", "sig_add") & driver == "mobility", # safegraph area OR niche
+                         taxa %in% c("mammals", "raccoon", "cougar"))
 
 n_sig_s1_mammals <- n_distinct(sig_s1_mammals$species)
 
@@ -366,16 +399,18 @@ s1_mammal_val <- round(((n_sig_s1_mammals / n_mammal_spp) * 100), 0)
 
 s1_output <- print(paste0("Human presence was associated with changes in area or niche size for ", s1_all_val, "% of all species, ",  s1_mammal_val, "% of the mammal species, and ", s1_bird_val, "% of the bird species studied."))
 
+```
 
-# statement 2: # of species with a significant response to human mobility and landscape modification in EITHER area or niche size / total # of species
+Statement 2: # of species with a significant response to human mobility and landscape modification in EITHER area or niche size / total # of species
 
+```{r}
 sig_s2_sg <- results %>%
-  filter(sig_code %in% c("high_int", "sig_add"),
-         driver == "mobility") # safegraph area OR niche
+            filter(sig_code %in% c("high_int", "sig_add"),
+                   driver == "mobility") # safegraph area OR niche
 
 sig_s2_ghm <- results %>%
-  filter(sig_code %in% c("high_int", "sig_add"),
-         driver == "modification") # GHM area OR niche
+              filter(sig_code %in% c("high_int", "sig_add"),
+                     driver == "modification") # GHM area OR niche
 
 # species in common 
 n_sig_s2 <- length(intersect(sig_s2_sg$species, sig_s2_ghm$species))
@@ -384,23 +419,26 @@ s2_all_val <- round(((n_sig_s2 / nrow(species_list)) * 100), 0)
 
 s2_output <- print(paste0(s2_all_val, "% of species were effected by both human presence and landscape modification."))
 
-# Statement 2b, breaking up statement 2 into area and niche: # of species with a significant response to human mobility and landscape modification in area, and separately for niche, / total # of species
+```
 
+Statement 2b, breaking up statement 2 into area and niche: # of species with a significant response to human mobility and landscape modification in area, and separately for niche, / total # of species
+
+```{r}
 sig_s2b_sg_niche <- results %>%
-  filter(sig_code %in% c("high_int", "sig_add"),
-         response == "niche_sg")
+                    filter(sig_code %in% c("high_int", "sig_add"),
+                           response == "niche_sg")
 
 sig_s2b_ghm_niche <- results %>%
-  filter(sig_code %in% c("high_int", "sig_add"),
-         response == "niche_ghm")
+                    filter(sig_code %in% c("high_int", "sig_add"),
+                           response == "niche_ghm")
 
 sig_s2b_ghm_area <- results %>%
-  filter(sig_code %in% c("high_int", "sig_add"),
-         response == "area_ghm")
+                    filter(sig_code %in% c("high_int", "sig_add"),
+                           response == "area_ghm")
 
 sig_s2b_sg_area <- results %>%
-  filter(sig_code %in% c("high_int", "sig_add"),
-         response == "area_sg")
+                  filter(sig_code %in% c("high_int", "sig_add"),
+                         response == "area_sg")
 
 # species in common for sg & area
 n_s2b_val_area <- length(intersect(sig_s2b_sg_area$species, sig_s2b_ghm_area$species))
@@ -409,18 +447,20 @@ n_s2b_val_niche <- length(intersect(sig_s2b_sg_niche$species, sig_s2b_ghm_niche$
 perc_s2b_val_area <- round(((n_s2b_val_area / nrow(species_list)) * 100), 0)
 perc_s2b_val_niche<- round(((n_s2b_val_niche / nrow(species_list)) * 100), 0)
 
-s2b_output <- print(paste0("(Fig. 2b; area size: ", perc_s2b_val_area, "%; niche size: ", perc_s2b_val_niche, "%)"))
+print(paste0("(Fig. 2b; area size: ", perc_s2b_val_area, "%; niche size: ", perc_s2b_val_niche, "%)"))
+```
 
 
-# statement 3: # of species with any interactive response / # of species that showed any significant response to mobility or modification
+Statement 3: # of species with any interactive response / # of species that showed any significant response to mobility or modification
 
+```{r}
 int <- results %>% 
-  filter(sig_code %in% c("high_int", "low_int")) # any interactive response
+       filter(sig_code %in% c("high_int", "low_int")) # any interactive response
 
 n_int <- n_distinct(int$species)
 
 sig <- results %>% 
-  filter(sig_code %in% c("high_int", "sig_add"))
+       filter(sig_code %in% c("high_int", "sig_add"))
 
 n_sig <- n_distinct(sig$species)
 
@@ -428,29 +468,32 @@ s3_val <- round(((n_int/n_sig) * 100), 0)
 
 s3_output <- print(paste0("For ", s3_val, "% of species that responded to human activity, the effects of human presence and landscape modification on area or niche size were interactive."))
 
+```
 
-# statement 4: # of mammal species with significant NEGATIVE response in area size to mobility or modification / # of mammal species
+Statement 4: # of mammal species with significant NEGATIVE response in area size to mobility or modification / # of mammal species
 
+```{r}
 sig_neg_area_mammals <- results %>% 
-  filter(sig_code %in% c("high_int", "sig_add"),     # significance
-         Estimate < 0,                               # neg response
-         response %in% c("area_ghm", "area_sg"),     # area landscape modification OR human mobility
-         taxa %in% c("mammals", "raccoon", "cougar"))
+                        filter(sig_code %in% c("high_int", "sig_add"),     # significance
+                               Estimate < 0,                               # neg response
+                               response %in% c("area_ghm", "area_sg"),     # area landscape modification OR human mobility
+                               taxa %in% c("mammals", "raccoon", "cougar"))
 
 n_sig_neg_area_mammals <- n_distinct(sig_neg_area_mammals$species)
 
 s4_val <- round(((n_sig_neg_area_mammals/n_mammal_spp) * 100), 0)
 
 s4_output <- print(paste0("Both human presence and landscape modification restricted the amount of area used by ", s4_val, "% of mammal species."))
+```
 
+Statement 5: # of bird species with significant NEGATIVE response in area size to mobility / # of bird species
 
-# statement 5: # of bird species with significant NEGATIVE response in area size to mobility / # of bird species
-
+```{r}
 sig_neg_area_birds <- results %>% 
-  filter(sig_code %in% c("high_int", "sig_add"), # significance
-         Estimate < 0,                           # neg response
-         response == "area_sg",                  # area human presence ONLY
-         taxa %in% c("birds", "curlew"))
+                      filter(sig_code %in% c("high_int", "sig_add"), # significance
+                             Estimate < 0,                           # neg response
+                             response == "area_sg",                  # area human presence ONLY
+                             taxa %in% c("birds", "curlew"))
 
 n_sig_neg_area_birds <- n_distinct(sig_neg_area_birds$species)
 
@@ -458,3 +501,4 @@ s5_val <- round(((n_sig_neg_area_birds/n_bird_spp) * 100), 0)
 
 s5_output <- print(paste0("The dynamic presence of humans contracted the amount of area used by ", s5_val, "% of bird species."))
 
+```
