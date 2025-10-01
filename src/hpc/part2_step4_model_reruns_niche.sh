@@ -49,8 +49,8 @@ echo "SCRIPT COMPLETE: refit-niche-breadth-interactive-models.r"
 # NOTE: This script cannot be run without access to the cleaned database.
 #       Since the db cannot made publicly available on Open Science 
 #       Framework, this script has been commented out in part2_modeling, but the 
-#       output PDFs have been publicly archived (see model_diagnostics/area)
-#       and the script itself is available.
+#       output PDFs from niche_model_summaries.r have been publicly archived 
+#       (see model_diagnostics/niche) and the scripts are available.
 
 #echo "STARTING SCRIPT: niche_model_summaries_reruns.r"
 
