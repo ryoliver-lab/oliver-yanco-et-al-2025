@@ -1,10 +1,11 @@
 # oliver-yanco-et-al-2025
 
-Data analysis for publication: "Interacting effects of human mobility and landscape modification on wildlife"
+Data analysis for publication: "Interacting effects of human presence and landscape modification on birds and mammals"
 
 ### Abstract
 
-Sustainable human-wildlife coexistence requires a mechanistic understanding of the many interacting ways in which humans affect animals. However, progress is hampered by the lack of accessible data for measuring the impact of the dynamic presence of people (hereafter ‘human mobility’). Here, we leverage daily mobile-device data to disentangle how human mobility and landscape modification differentially influence the use of geographic and environmental space for 37 mammal and bird species across the United States. Human mobility drove changes in area or niche size for over 65% of the species in this study. For ~60% of species that responded to human activities, the effects were interdependent – animals tended to react more strongly to human mobility in less modified habitats. Overall, human activities caused mammals and birds to use less space and shrink their environmental niches (mammals: median decrease in area and niche size of 10% and 3% per animal per week, respectively; birds: median decrease of 12% and 2%). Our results demonstrate that human mobility and landscape modification have complex combined effects on wildlife which need to be considered for effective management.
+Sustainable human-wildlife coexistence requires a mechanistic understanding of the many ways that humans affect animals. However, progress is hampered by the lack of accessible data measuring the dynamic presence of people. Here, we leverage mobile-device data to disentangle how human presence and landscape modification differentially influence the use of geographic and environmental space for 37 mammal and bird species across the United States. Human presence affected over 65% of species, with substantial variation across species. For ~60% of species that responded to human activities, the effects were interdependent – animals tended to react more strongly to human presence in less modified habitats. Our results demonstrate that human presence and landscape modification have complex combined effects on wildlife which need to be considered for effective management.
+
 
 ### Repository Structure
 
