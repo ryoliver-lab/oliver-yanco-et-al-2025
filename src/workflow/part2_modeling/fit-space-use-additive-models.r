@@ -164,8 +164,7 @@ foreach(i = 1:nrow(sp_sum), .errorhandling = "pass", .inorder = F) %dopar% {
     init = 0,
     cores = 1,
     iter = .iter,
-    thin = .thin,
-    control = list(adapt_delta = 0.95)
+    thin = .thin
   )
 
   #stash results into named list
